@@ -1,0 +1,22 @@
+name: TeleportPlugin
+version: 4.0
+main: de.CypDasHuhn.TP.main.Main
+api-version: '1.20'
+
+commands:
+  testcommand:
+    description: testCommand
+  teleport:
+    aliases: t
+  teleportUser:
+    aliases: tu
+  teleportGlobal:
+    aliases: tg
+  teleportSet:
+    aliases: ts
+  teleportEdit:
+    aliases: te
+  teleportDelete:
+    aliases: td
+  teleportLanguage:
+    aliases: tl
