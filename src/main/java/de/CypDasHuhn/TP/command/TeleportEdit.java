@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeleportEdit {
-    public static void command(CommandSender sender, String[] args, String label) {
+    public static void command(CommandSender sender, String[] args) {
         Message.sendMessage(sender, "wip");
     }
 
-    public static List<String> completer(CommandSender sender, String[] args, String label) {
+    public static List<String> completer(CommandSender sender, String[] args) {
         List<String> arguments = new ArrayList<String>();
         arguments.add(Message.getMessage(sender, "wip"));
         return arguments;

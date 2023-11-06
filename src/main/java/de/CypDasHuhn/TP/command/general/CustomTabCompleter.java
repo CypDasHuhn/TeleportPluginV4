@@ -14,8 +14,8 @@ public class CustomTabCompleter implements TabCompleter {
             case "testcommand" -> { return Testcommand.completer(sender, args, label); }
             case "t", "teleport", "tu", "teleportuser", "tg", "teleportgeneral" -> { return Teleport.completer(sender, args, label); }
             case "ts", "teleportset" -> { return TeleportSet.completer(sender, args); }
-            case "te", "teleportedit" -> { return TeleportEdit.completer(sender, args, label); }
-            case "td", "teleportdelete" -> { return TeleportDelete.completer(sender, args, label); }
+            case "te", "teleportedit" -> { return TeleportEdit.completer(sender, args); }
+            case "td", "teleportdelete" -> { return TeleportDelete.completer(sender, args); }
             case "tl", "teleportlanguage" -> { return Language.completer(args); }
         }
         return null;

@@ -1,12 +1,14 @@
 package de.CypDasHuhn.TP.command;
 
 import de.CypDasHuhn.TP.filemanager.CustomFiles;
+import de.CypDasHuhn.TP.filemanager.ListManager;
 import de.CypDasHuhn.TP.filemanager.LocationManager;
 import de.CypDasHuhn.TP.message.Message;
 import de.CypDasHuhn.TP.shared.FinalVariables;
 import de.CypDasHuhn.TP.shared.SpigotMethods;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Teleport {
+    private static final String PLAYER_NOT_FOUND= "player_not_found";
     public static void command(CommandSender sender, String[] args, String label) {
         // check
         if (args.length < 1) {
@@ -28,11 +31,11 @@ public class Teleport {
         boolean teleportGlobal = label.equalsIgnoreCase("tg") || label.equalsIgnoreCase("teleportGlobal");
         boolean teleportUser = label.equalsIgnoreCase("tu") || label.equalsIgnoreCase("teleport");
 
+        Boolean[] commandTypes = {teleport, teleportGlobal, teleportUser};
+
         if (teleport && !(sender instanceof Player)) {
             return;
         }
-
-
 
         if (teleportUser && args.length < 2) {
             // INTERFACE TO-DO
@@ -50,15 +53,10 @@ public class Teleport {
             senderLocation = blockCommandSender.getBlock().getLocation();
         }
 
-        String directory = "";
-        if (teleportGlobal) directory = "General";
-        else if (teleport) directory = player.getUniqueId().toString();
-        else if (teleportUser) {
-            directory = SpigotMethods.getPlayer(args[0], senderLocation).getUniqueId().toString();
-            if (directory == null) {
-                Message.sendMessage(player, "player_not_found");
-                return;
-            }
+        String directory = getDirectory(sender, commandTypes, args);
+        if (directory.equals(PLAYER_NOT_FOUND)) {
+            Message.sendMessage(sender, PLAYER_NOT_FOUND);
+            return;
         }
 
         String locationName = args[0];
@@ -89,8 +87,69 @@ public class Teleport {
     }
 
     public static List<String> completer(CommandSender sender, String[] args, String label) {
+        boolean teleport = label.equalsIgnoreCase("t") || label.equalsIgnoreCase("teleport");
+        boolean teleportGlobal = label.equalsIgnoreCase("tg") || label.equalsIgnoreCase("teleportGlobal");
+        boolean teleportUser = label.equalsIgnoreCase("tu") || label.equalsIgnoreCase("teleport");
+
+        Boolean[] commandTypes = {teleport, teleportGlobal, teleportUser};
+
+        String directory = getDirectory(sender, commandTypes, args);
+
         List<String> arguments = new ArrayList<String>();
+        switch (args.length) {
+            case 1 -> {
+                if (teleport || teleportGlobal) {
+                    List<String> locations = ListManager.getItems(null,FinalVariables.LOCATION);
+                    arguments.addAll(locations);
+                }
+
+                if (teleportUser) {
+
+                }
+            }
+            case 2 -> {
+                if (teleport ||teleportGlobal) {
+
+                }
+
+                if (teleportUser) {
+                    List<String> locations = ListManager.getItems(null,FinalVariables.LOCATION);
+                    arguments.addAll(locations);
+                }
+            }
+            case 3 -> {
+                if (teleportUser) {
+
+                }
+            }
+
+        }
         arguments.add(Message.getMessage(sender, "wip"));
         return arguments;
+    }
+
+    public static String getDirectory(CommandSender sender, Boolean[] commandType, String[] args) {
+        boolean teleport = commandType[0];
+        boolean teleportGlobal = commandType[1];
+        boolean teleportUser = commandType[2];
+
+        Player player = null;
+        BlockCommandSender blockCommandSender = null;
+        if (sender instanceof Player) player = (Player) sender;
+        if (sender instanceof BlockCommandSender) blockCommandSender = (BlockCommandSender) sender;
+        Location senderLocation = null;
+        if (player != null) senderLocation = player.getLocation();
+        else senderLocation = blockCommandSender.getBlock().getLocation();
+
+        String directory = "";
+        if (teleportGlobal) directory = "General";
+        else if (teleport) directory = player.getUniqueId().toString();
+        else if (teleportUser) {
+            directory = SpigotMethods.getPlayer(args[0], senderLocation).getUniqueId().toString();
+            if (directory == null) {
+                return PLAYER_NOT_FOUND;
+            }
+        }
+        return directory;
     }
 }

@@ -4,6 +4,9 @@ import de.CypDasHuhn.TP.message.Message;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListManager {
     public static int findID(String directory, String itemName, String itemType) {
         // Prework
@@ -27,11 +30,11 @@ public class ListManager {
         if (exists) return;
         // prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration lConfig = customFiles[0].gfc("List", directory);
-        int amount = lConfig.getInt(itemType+".amount")+1;
+        FileConfiguration listConfig = customFiles[0].gfc("List", directory);
+        int amount = listConfig.getInt(itemType+".amount")+1;
         // Set
-        lConfig.set(itemType+".amount", amount);
-        lConfig.set(itemType+"."+amount, itemName);
+        listConfig.set(itemType+".amount", amount);
+        listConfig.set(itemType+"."+amount, itemName);
         // Save
         CustomFiles.saveArray(customFiles);
     }
@@ -42,15 +45,30 @@ public class ListManager {
         if (exists) return;
         //Prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration lConfig = customFiles[0].gfc("List", directory);
-        int amount = lConfig.getInt(itemType+".amount")+1;
+        FileConfiguration listConfig = customFiles[0].gfc("List", directory);
+        int amount = listConfig.getInt(itemType+".amount")+1;
         // Delete
         int targetID = findID(directory, itemName, itemType);
-        lConfig.set(itemType+".amount", amount-1);
+        listConfig.set(itemType+".amount", amount-1);
         for (int i = amount; i > targetID; i--) {
-            lConfig.set(itemType+i, itemType+(i-1));
+            listConfig.set(itemType+i, itemType+(i-1));
         }
         // Save
         CustomFiles.saveArray(customFiles);
+    }
+
+    public static List<String> getItems(String directory, String itemType) {
+        //Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        FileConfiguration listConfig = customFiles[0].gfc("List", directory);
+        List<String> items = new ArrayList<String>();
+        int amount = listConfig.getInt(itemType+".amount");
+        // add
+        for (int i = 0; i < amount; i++) {
+            String item = listConfig.getString(itemType+"."+i);
+            items.add(item);
+        }
+
+        return items;
     }
 }
