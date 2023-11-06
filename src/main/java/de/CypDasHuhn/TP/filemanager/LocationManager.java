@@ -24,7 +24,7 @@ public class LocationManager {
 
         // Prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration childConfig = customFiles[0].gfc(name,directory+"/"+ FinalVariables.LOCATION);
+        FileConfiguration childConfig = customFiles[0].getFileConfiguration(name,directory+"/"+ FinalVariables.LOCATION);
         // Set
         childConfig.set("Location", location);
         // Save

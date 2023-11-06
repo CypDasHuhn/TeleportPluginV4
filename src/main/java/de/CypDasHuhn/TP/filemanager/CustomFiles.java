@@ -11,14 +11,13 @@ import java.io.IOException;
 public class CustomFiles {
     private File file;
     private FileConfiguration customFile;
-    //GetFileConfiguration
-    public FileConfiguration gfc(String name, String folder) {
+    public FileConfiguration getFileConfiguration(String name, String folder) {
         file = new File(Bukkit.getServer().getPluginManager().getPlugin(Main.pluginName).getDataFolder()+"/"+folder, name+".yml");
         if (!file.exists()) {
             try {
                 file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
         }
         customFile = YamlConfiguration.loadConfiguration(file);
@@ -30,22 +29,22 @@ public class CustomFiles {
             if (this.customFile != null){
                 customFile.save(file);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
         }
     }
 
-    public static void saveArray(CustomFiles[] cf) {
-        for (CustomFiles customFile : cf) {
+    public static void saveArray(CustomFiles[] customFiles) {
+        for (CustomFiles customFile : customFiles) {
             customFile.save();
         }
     }
 
     public static CustomFiles[] getCustomFiles(int amount) {
-        CustomFiles[] cf = new CustomFiles[amount];
+        CustomFiles[] customFiles = new CustomFiles[amount];
         for (int i = 0; i < amount; i++) {
-            cf[i] = new CustomFiles();
-        }return cf;
+            customFiles[i] = new CustomFiles();
+        }return customFiles;
     }
 
     public void reload() {

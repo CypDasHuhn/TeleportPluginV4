@@ -1,7 +1,5 @@
 package de.CypDasHuhn.TP.filemanager;
 
-import de.CypDasHuhn.TP.message.Message;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
@@ -11,7 +9,7 @@ public class ListManager {
     public static int findID(String directory, String itemName, String itemType) {
         // Prework
         CustomFiles[] cf = CustomFiles.getCustomFiles(1);
-        FileConfiguration lConfig = cf[0].gfc("List", directory);
+        FileConfiguration lConfig = cf[0].getFileConfiguration("List", directory);
         int amount = lConfig.getInt(itemType + ".amount");
         // Find
         for (int i = 0; i < amount; i++) {
@@ -30,7 +28,7 @@ public class ListManager {
         if (exists) return;
         // prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration listConfig = customFiles[0].gfc("List", directory);
+        FileConfiguration listConfig = customFiles[0].getFileConfiguration("List", directory);
         int amount = listConfig.getInt(itemType+".amount")+1;
         // Set
         listConfig.set(itemType+".amount", amount);
@@ -45,7 +43,7 @@ public class ListManager {
         if (exists) return;
         //Prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration listConfig = customFiles[0].gfc("List", directory);
+        FileConfiguration listConfig = customFiles[0].getFileConfiguration("List", directory);
         int amount = listConfig.getInt(itemType+".amount")+1;
         // Delete
         int targetID = findID(directory, itemName, itemType);
@@ -60,7 +58,7 @@ public class ListManager {
     public static List<String> getItems(String directory, String itemType) {
         //Prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration listConfig = customFiles[0].gfc("List", directory);
+        FileConfiguration listConfig = customFiles[0].getFileConfiguration("List", directory);
         List<String> items = new ArrayList<String>();
         int amount = listConfig.getInt(itemType+".amount");
         // add

@@ -2,13 +2,11 @@ package de.CypDasHuhn.TP.command;
 
 import de.CypDasHuhn.TP.filemanager.CustomFiles;
 import de.CypDasHuhn.TP.filemanager.ListManager;
-import de.CypDasHuhn.TP.filemanager.LocationManager;
 import de.CypDasHuhn.TP.message.Message;
 import de.CypDasHuhn.TP.shared.FinalVariables;
 import de.CypDasHuhn.TP.shared.SpigotMethods;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -63,7 +61,7 @@ public class Teleport {
         if (teleportUser) locationName = args[1];
 
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration locationConfig = customFiles[0].gfc(locationName, directory+"/"+FinalVariables.LOCATION);
+        FileConfiguration locationConfig = customFiles[0].getFileConfiguration(locationName, directory+"/"+FinalVariables.LOCATION);
 
         Location teleportLocation = locationConfig.getLocation("Location");
 

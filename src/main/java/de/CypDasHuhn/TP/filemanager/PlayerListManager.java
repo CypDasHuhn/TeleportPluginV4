@@ -1,15 +1,12 @@
 package de.CypDasHuhn.TP.filemanager;
 
-import de.CypDasHuhn.TP.shared.FinalVariables;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.UUID;
-
-public class PlayerManager {
+public class PlayerListManager {
     public static boolean existsUUID(String uuid) {
         // Prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration playersConfig = customFiles[0].gfc("Players","");
+        FileConfiguration playersConfig = customFiles[0].getFileConfiguration("Players","");
         // find
         String player = playersConfig.getString("UUID."+uuid);
         // check
@@ -21,7 +18,7 @@ public class PlayerManager {
     public static boolean existsName(String name) {
         // Prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration playersConfig = customFiles[0].gfc("Players","");
+        FileConfiguration playersConfig = customFiles[0].getFileConfiguration("Players","");
         // find
         String player = playersConfig.getString("Name."+name);
         // check
@@ -33,7 +30,7 @@ public class PlayerManager {
     public static void add(String name, String uuid) {
         // Prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration playersConfig = customFiles[0].gfc("Players","");
+        FileConfiguration playersConfig = customFiles[0].getFileConfiguration("Players","");
         int amount = playersConfig.getInt("PlayerAmount");
         // add
         amount++;
@@ -49,7 +46,7 @@ public class PlayerManager {
     public static void replaceName(String name, String uuid) {
         // Prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration playersConfig = customFiles[0].gfc("Players","");
+        FileConfiguration playersConfig = customFiles[0].getFileConfiguration("Players","");
         int amount = playersConfig.getInt("PlayerAmount");
 
         // find
