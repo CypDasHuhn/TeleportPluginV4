@@ -2,7 +2,9 @@ package de.CypDasHuhn.TP.interfaces;
 
 import de.CypDasHuhn.TP.filemanager.PlayerDataManager;
 import de.CypDasHuhn.TP.interfaces.ConfirmingInterface.ConfirmingInterface;
+import de.CypDasHuhn.TP.interfaces.ConfirmingInterface.ConfirmingInterfaceListener;
 import de.CypDasHuhn.TP.interfaces.FolderInterface.FolderInterface;
+import de.CypDasHuhn.TP.interfaces.FolderInterface.FolderInterfaceListener;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -15,17 +17,29 @@ public class Interface {
        put(ConfirmingInterface.interfaceName, ConfirmingInterface.class);
     }};
 
-    private static void routeInterface(Player player, String interfaceName) {
-        if (interfaceMap.containsKey(interfaceName)) return;
+    public static final HashMap<Class, Class> listenerMap = new HashMap<Class, Class>() {{
+        put(FolderInterface.class, FolderInterfaceListener.class);
+        put(ConfirmingInterface.class, ConfirmingInterfaceListener.class);
+    }};
 
-        Inventory inventory = null;
+    private static void routeInterface(Player player, String interfaceName) {
+        if (!interfaceMap.containsKey(interfaceName)) return;
 
         opening.put(player, true);
         PlayerDataManager.setInventory(player, interfaceName);
 
-        inventory = // call the method corresponding to the value of the key interfaceName in the interfaceMap
+        Class<?> interfaceClass = interfaceMap.get(interfaceName);
 
-        player.openInventory(inventory);
+        try {
+            java.lang.reflect.Method method = interfaceClass.getMethod("getInterface", Player.class);
+
+            Inventory inventory = (Inventory) method.invoke(null, player);
+
+            player.openInventory(inventory);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         opening.put(player, false);
     }
 }

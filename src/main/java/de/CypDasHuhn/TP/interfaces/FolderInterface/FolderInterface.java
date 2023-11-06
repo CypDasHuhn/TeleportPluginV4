@@ -5,6 +5,7 @@ import org.bukkit.inventory.Inventory;
 
 public class FolderInterface {
     public static final String interfaceName = "Folder_Interface";
+    public static final Class listener = FolderInterfaceListener.class;
     public static Inventory getInterface(Player player) {
 
         return null;

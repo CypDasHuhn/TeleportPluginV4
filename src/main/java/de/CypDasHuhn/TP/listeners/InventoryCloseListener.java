@@ -1,6 +1,7 @@
 package de.CypDasHuhn.TP.listeners;
 
 import de.CypDasHuhn.TP.filemanager.PlayerDataManager;
+import de.CypDasHuhn.TP.interfaces.Interface;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,6 +11,10 @@ public class InventoryCloseListener implements Listener {
     @EventHandler
     public void inventoryCloseListener(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
-        PlayerDataManager.setInventory(player, null);
+        Boolean currentlyOpening = Interface.opening.get(player);
+
+        if (!currentlyOpening) {
+            PlayerDataManager.setInventory(player, null);
+        }
     }
 }
