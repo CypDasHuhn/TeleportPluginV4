@@ -36,12 +36,7 @@ public class TeleportSet {
                 arguments.add("[Name]");
                 break;
         }
-        List <String> result = new ArrayList<String>();
-        for (String argument : arguments) {
-            if (argument.toLowerCase().startsWith(args[0].toLowerCase())) {
-                result.add(argument);
-            }
-        }
-        return result;
+
+        return arguments;
     }
 }

@@ -20,3 +20,5 @@ commands:
     aliases: td
   teleportLanguage:
     aliases: tl
+  teleportPermission:
+    aliases: tp

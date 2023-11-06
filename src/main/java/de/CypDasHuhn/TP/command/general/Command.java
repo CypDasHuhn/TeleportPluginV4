@@ -14,6 +14,7 @@ public class Command implements CommandExecutor {
             case "te", "teleportedit" -> TeleportEdit.command(sender, args);
             case "td", "teleportdelete" -> TeleportDelete.command(sender, args);
             case "tl", "teleportlanguage" -> Language.command(sender, args);
+            case "tp", "teleportpermission" -> Permission.command(sender, args);
         }
         return false;
     }

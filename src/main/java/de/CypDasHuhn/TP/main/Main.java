@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
     private static Main plugin;
     public static String pluginName;
-    private static final String[] commands = {"testcommand", "teleport", "teleportUser", "teleportGlobal", "teleportSet", "teleportEdit", "teleportDelete", "teleportLanguage"};
+    private static final String[] commands = {"testcommand", "teleport", "teleportUser", "teleportGlobal", "teleportSet", "teleportEdit", "teleportDelete", "teleportLanguage", "teleportPermission"};
     private static final Listener[] listeners = {new PlayerJoinListener(), new InventoryClickListener(), new InventoryCloseListener()};
 
     public void onEnable(){
