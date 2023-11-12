@@ -9,16 +9,16 @@ commands:
   teleport:
     aliases: t
   teleportUser:
-    aliases: tu
+    aliases: [tu, tUser]
   teleportGlobal:
-    aliases: tg
+    aliases: [tg, tGlobal]
   teleportSet:
-    aliases: ts
+    aliases: [ts, tSet]
   teleportEdit:
-    aliases: te
+    aliases:  [te, tEdit]
   teleportDelete:
-    aliases: td
+    aliases: [td, tDelete]
   teleportLanguage:
-    aliases: tl
+    aliases: [tl, tLanguage]
   teleportPermission:
-    aliases: tp
+    aliases: [tpm, tPermission]

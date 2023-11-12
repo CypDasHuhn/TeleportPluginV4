@@ -1,6 +1,6 @@
 package de.CypDasHuhn.TP.message;
 
-import org.bukkit.Bukkit;
+import de.CypDasHuhn.TP.filemanager.LocaleManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -30,14 +30,13 @@ public class Message {
 
     public static String getMessage(Player player, String message) {
         if (message == null) return null;
-        ResourceBundle messagesBundle = ResourceBundle.getBundle("messages", Locale.getLocale(player));
+        ResourceBundle messagesBundle = ResourceBundle.getBundle("messages", LocaleManager.getLocale(player));
         return messagesBundle.getString(message);
     }
 
     public static String getMessage(Player player, String message, Object... vars) {
         String localizedMessage = getMessage(player, message);
-        String formattedMessage = formatMessage(message, vars);
-        Bukkit.broadcastMessage("zuspät");
+        String formattedMessage = formatMessage(localizedMessage, vars);
         return formattedMessage;
     }
 
@@ -56,7 +55,6 @@ public class Message {
     private static String formatMessage(String message, Object... vars) {
         if (!(vars != null && vars.length > 0)) return message;
         MessageFormat messageFormat = new MessageFormat(message);
-        Bukkit.broadcastMessage("desaster");
         return messageFormat.format(vars);
     }
 }

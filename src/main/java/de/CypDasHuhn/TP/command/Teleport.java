@@ -1,9 +1,12 @@
 package de.CypDasHuhn.TP.command;
 
+import de.CypDasHuhn.TP.command.general.Command;
+import de.CypDasHuhn.TP.compability.LocationCompability;
 import de.CypDasHuhn.TP.filemanager.CustomFiles;
 import de.CypDasHuhn.TP.filemanager.ListManager;
+import de.CypDasHuhn.TP.filemanager.PlayerListManager;
 import de.CypDasHuhn.TP.message.Message;
-import de.CypDasHuhn.TP.shared.FinalVariables;
+import de.CypDasHuhn.TP.shared.Finals;
 import de.CypDasHuhn.TP.shared.SpigotMethods;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -16,7 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Teleport {
-    private static final String PLAYER_NOT_FOUND= "player_not_found";
+    private static final String PLAYER_NOT_FOUND = "player_not_found";
+
+    public static final String TELEPORT_COMMAND = "teleport";
+    public static final String TELEPORT_GLOBAL_COMMAND = "teleportGlobal";
+    public static final String TELEPORT_USER_COMMAND = "teleportUser";
+
     public static void command(CommandSender sender, String[] args, String label) {
         // check
         if (args.length < 1) {
@@ -25,9 +33,9 @@ public class Teleport {
             return;
         }
 
-        boolean teleport = label.equalsIgnoreCase("t") || label.equalsIgnoreCase("teleport");
-        boolean teleportGlobal = label.equalsIgnoreCase("tg") || label.equalsIgnoreCase("teleportGlobal");
-        boolean teleportUser = label.equalsIgnoreCase("tu") || label.equalsIgnoreCase("teleport");
+        boolean teleport = Command.isCommand(label, TELEPORT_COMMAND);
+        boolean teleportGlobal = Command.isCommand(label, TELEPORT_GLOBAL_COMMAND);
+        boolean teleportUser = Command.isCommand(label, TELEPORT_USER_COMMAND);
 
         Boolean[] commandTypes = {teleport, teleportGlobal, teleportUser};
 
@@ -60,21 +68,31 @@ public class Teleport {
         String locationName = args[0];
         if (teleportUser) locationName = args[1];
 
+        boolean locationExists = ListManager.findID(directory, locationName, Finals.ItemType.LOCATION.label) != Finals.NULL_INT;
+        if (!locationExists) {
+            Message.sendMessage(sender, "teleport_location_not_found", locationName);
+            return;
+        }
+
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration locationConfig = customFiles[0].getFileConfiguration(locationName, directory+"/"+FinalVariables.LOCATION);
+        FileConfiguration locationConfig = customFiles[0].getFileConfiguration(locationName, directory+"/"+ Finals.ItemType.LOCATION.label);
+
+        if (LocationCompability.oldVersion(directory, locationName)) {
+            LocationCompability.update(directory, locationName);
+        }
 
         Location teleportLocation = locationConfig.getLocation("Location");
 
         Player targetPlayer = null;
         String targetPlayerName = null;
-        if ((teleport || teleportGlobal) && args.length > 1) targetPlayerName = args[2];
-        else if (teleportUser && args.length > 2) targetPlayerName = args[3];
+        if ((teleport || teleportGlobal) && args.length > 1) targetPlayerName = args[1];
+        else if (teleportUser && args.length > 2) targetPlayerName = args[2];
         else if (player != null) targetPlayer = player;
         else return;
 
 
         if (targetPlayerName != null) {
-            targetPlayer = Bukkit.getPlayer(targetPlayerName);
+            targetPlayer = SpigotMethods.getPlayer(targetPlayerName, senderLocation);
             if (targetPlayer == null) {
                 Message.sendMessage(player, "player_not_found");
                 return;
@@ -85,9 +103,9 @@ public class Teleport {
     }
 
     public static List<String> completer(CommandSender sender, String[] args, String label) {
-        boolean teleport = label.equalsIgnoreCase("t") || label.equalsIgnoreCase("teleport");
-        boolean teleportGlobal = label.equalsIgnoreCase("tg") || label.equalsIgnoreCase("teleportGlobal");
-        boolean teleportUser = label.equalsIgnoreCase("tu") || label.equalsIgnoreCase("teleport");
+        boolean teleport = Command.isCommand(label, TELEPORT_COMMAND);
+        boolean teleportGlobal = Command.isCommand(label, TELEPORT_GLOBAL_COMMAND);
+        boolean teleportUser = Command.isCommand(label, TELEPORT_USER_COMMAND);
 
         Boolean[] commandTypes = {teleport, teleportGlobal, teleportUser};
 
@@ -97,32 +115,38 @@ public class Teleport {
         switch (args.length) {
             case 1 -> {
                 if (teleport || teleportGlobal) {
-                    List<String> locations = ListManager.getItems(null,FinalVariables.LOCATION);
+                    List<String> locations = ListManager.getItems(directory, Finals.ItemType.LOCATION.label);
                     arguments.addAll(locations);
                 }
 
                 if (teleportUser) {
-
+                    List<String> players = PlayerListManager.getPlayers();
+                    System.out.println(players);
+                    arguments.addAll(players);
                 }
             }
             case 2 -> {
                 if (teleport ||teleportGlobal) {
-
+                    List<String> players = SpigotMethods.getPossibleTargets();
+                    arguments.addAll(players);
                 }
 
                 if (teleportUser) {
-                    List<String> locations = ListManager.getItems(null,FinalVariables.LOCATION);
+                    if (directory.equals(PLAYER_NOT_FOUND)) break;
+                    List<String> locations = ListManager.getItems(directory, Finals.ItemType.LOCATION.label);
+                    System.out.println(locations);
                     arguments.addAll(locations);
                 }
             }
             case 3 -> {
-                if (teleportUser) {
-
+                if (teleportUser ) {
+                    if (directory.equals(PLAYER_NOT_FOUND)) break;
+                    List<String> players = SpigotMethods.getPossibleTargets();
+                    arguments.addAll(players);
                 }
             }
 
         }
-        arguments.add(Message.getMessage(sender, "wip"));
         return arguments;
     }
 
@@ -132,21 +156,20 @@ public class Teleport {
         boolean teleportUser = commandType[2];
 
         Player player = null;
-        BlockCommandSender blockCommandSender = null;
         if (sender instanceof Player) player = (Player) sender;
-        if (sender instanceof BlockCommandSender) blockCommandSender = (BlockCommandSender) sender;
-        Location senderLocation = null;
-        if (player != null) senderLocation = player.getLocation();
-        else senderLocation = blockCommandSender.getBlock().getLocation();
 
         String directory = "";
-        if (teleportGlobal) directory = "General";
+        if (teleportGlobal) directory = Finals.GLOBAL;
         else if (teleport) directory = player.getUniqueId().toString();
         else if (teleportUser) {
-            directory = SpigotMethods.getPlayer(args[0], senderLocation).getUniqueId().toString();
-            if (directory == null) {
+            String playerName = args[0];
+
+            boolean playerExists = PlayerListManager.existsByName(playerName);
+            if (!playerExists) {
                 return PLAYER_NOT_FOUND;
             }
+
+            directory = PlayerListManager.getByName(playerName);
         }
         return directory;
     }

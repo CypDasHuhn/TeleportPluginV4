@@ -1,8 +1,7 @@
 package de.CypDasHuhn.TP.command;
 
-import de.CypDasHuhn.TP.message.Locale;
+import de.CypDasHuhn.TP.filemanager.LocaleManager;
 import de.CypDasHuhn.TP.message.Message;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -10,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Language {
-    public static void command(CommandSender sender, String[] args) {
+    public static final String LANGUAGE_COMMAND = "teleportLanguage";
+    public static void command(CommandSender sender, String[] args, String label) {
         if (!(sender instanceof Player player)) return;
         if (args.length < 1) {
             Message.sendMessage(player, "language_short_argument");
@@ -18,28 +18,28 @@ public class Language {
         }
 
         String language = args[0];
-        boolean isLanguage = Locale.isLocale(language);
+        boolean isLanguage = LocaleManager.isLocale(language);
         if (!isLanguage) {
             Message.sendMessage(player, "language_locale_not_existing");
             return;
         }
 
-        String currentLanguage = Locale.getLanguage(player);
+        String currentLanguage = LocaleManager.getLanguage(player);
         boolean sameLanguage = language.equals(currentLanguage);
         if (sameLanguage) {
             Message.sendMessage(player, "language_already_selected");
             return;
         }
 
-        Locale.setLanguage(player, language);
+        LocaleManager.setLanguage(player, language);
         Message.sendMessage(player, "language_success");
     }
 
-    public static List<String> completer(String[] args) {
+    public static List<String> completer(CommandSender sender, String[] args, String label) {
         List<String> arguments = new ArrayList<String>();
         switch (args.length) {
             case 1:
-                List<String> locales = Locale.locales;
+                List<String> locales = LocaleManager.locales;
                 arguments.addAll(locales);
                 break;
         }

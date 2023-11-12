@@ -1,16 +1,18 @@
-package de.CypDasHuhn.TP.message;
+package de.CypDasHuhn.TP.filemanager;
 
-import de.CypDasHuhn.TP.filemanager.CustomFiles;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Locale {
+public class LocaleManager {
     public static final List<String> locales = Arrays.asList("en", "de");
+    public static final String defaultLocale = locales.get(0); // en
+
     public static boolean isLocale(String language) {
-        return Arrays.asList(locales).contains(language);
+        return locales.contains(language);
     }
 
     public static void setLanguage(Player player, String language) {
@@ -25,9 +27,7 @@ public class Locale {
         FileConfiguration playerConfig = customFiles[0].getFileConfiguration("PlayerData", "");
         String language = playerConfig.getString("Players." + player.getUniqueId() + ".language");
         if (language == null) {
-            String globalLanguage = getLanguageGlobal();
-            setLanguage(player, globalLanguage);
-            language = globalLanguage;
+            language = getLanguageGlobal();
         }
         return language;
     }
@@ -43,6 +43,10 @@ public class Locale {
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
         FileConfiguration playerConfig = customFiles[0].getFileConfiguration("PlayerData", "");
         String language = playerConfig.getString("GlobalLanguage");
+        if (language == null) {
+            language = defaultLocale;
+            setLanguageGlobal(defaultLocale);
+        }
         return language;
     }
 

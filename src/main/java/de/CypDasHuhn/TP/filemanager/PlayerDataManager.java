@@ -1,6 +1,6 @@
 package de.CypDasHuhn.TP.filemanager;
 
-import de.CypDasHuhn.TP.shared.FinalVariables;
+import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -11,7 +11,7 @@ public class PlayerDataManager {
         String UUID = player.getUniqueId().toString();
         FileConfiguration playerDataConfig = customFiles[0].getFileConfiguration("Data",UUID);
         // set
-        if (inventory == null) inventory = FinalVariables.EMPTY;
+        if (inventory == null) inventory = Finals.EMPTY;
         playerDataConfig.set("Data.Inventory", inventory);
         // save
         CustomFiles.saveArray(customFiles);
@@ -24,6 +24,7 @@ public class PlayerDataManager {
         FileConfiguration playerDataConfig = customFiles[0].getFileConfiguration("Data",UUID);
         // get
         String inventory = playerDataConfig.getString("Data.Inventory");
+        if (inventory == null) inventory = Finals.EMPTY;
         return inventory;
     }
 }

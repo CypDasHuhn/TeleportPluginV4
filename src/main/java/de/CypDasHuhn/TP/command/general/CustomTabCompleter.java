@@ -5,30 +5,45 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class CustomTabCompleter implements TabCompleter {
+    // if the label (the command written) equals to one of the aliases in aliasesMap,
+    // it takes the result of the linked completer and returns it.
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        List <String> arguments = new ArrayList<String>();
-        switch (label.toLowerCase()) {
-            case "testcommand" -> arguments = Testcommand.completer(sender, args, label);
-            case "t", "teleport", "tu", "teleportuser", "tg", "teleportgeneral" -> arguments = Teleport.completer(sender, args, label);
-            case "ts", "teleportset" -> arguments = TeleportSet.completer(sender, args);
-            case "te", "teleportedit" -> arguments = TeleportEdit.completer(sender, args);
-            case "td", "teleportdelete" -> arguments = TeleportDelete.completer(sender, args);
-            case "tl", "teleportlanguage" -> arguments = Language.completer(args);
-            case "tp", "teleportpermission" -> arguments = Permission.completer(sender, args);
+        List<String> arguments = new ArrayList<>();
+
+        for (HashMap.Entry<String, String[]> entry : de.CypDasHuhn.TP.command.general.Command.aliasesMap.entrySet()) {
+            String commandLabel = entry.getKey();
+            String[] aliases = entry.getValue();
+
+            if (label.equalsIgnoreCase(commandLabel) || Arrays.stream(aliases).anyMatch(alias -> label.equalsIgnoreCase(alias))) {
+                Class<?> commandClass = de.CypDasHuhn.TP.command.general.Command.commandMap.get(commandLabel);
+                try {
+                    Method completerMethod = commandClass.getMethod("completer", CommandSender.class, String[].class, String.class);
+                    arguments = (List<String>) completerMethod.invoke(null, sender, args, label);
+                    break;
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+
+            }
         }
 
-        List <String> result = new ArrayList<String>();
+        int argEnd = args.length - 1;
+        List<String> result = new ArrayList<>();
         for (String argument : arguments) {
-            if (argument.toLowerCase().startsWith(args[0].toLowerCase())) {
+            if (argument.toLowerCase().startsWith(args[argEnd].toLowerCase())) {
                 result.add(argument);
             }
         }
 
         return result;
     }
+
 }

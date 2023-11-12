@@ -3,11 +3,9 @@ package de.CypDasHuhn.TP.command;
 import de.CypDasHuhn.TP.filemanager.CustomFiles;
 import de.CypDasHuhn.TP.filemanager.ListManager;
 import de.CypDasHuhn.TP.filemanager.ParentManager;
+import de.CypDasHuhn.TP.filemanager.PermissionManager;
 import de.CypDasHuhn.TP.message.Message;
-import de.CypDasHuhn.TP.shared.FinalVariables;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.command.BlockCommandSender;
+import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -16,34 +14,67 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeleportDelete {
-    public static void command(CommandSender sender, String[] args) {
+    public static final String TELEPORT_DELETE_COMMAND = "teleportDelete";
+    public static void command(CommandSender sender, String[] args, String label) {
         // check
+        if (!(sender instanceof Player player)) return; // command blocks cannot access a directory
+
         if (args.length < 1) {
             Message.sendMessage(sender, "teleport_delete_short_argument");
             return;
         }
-
-        if (!(sender instanceof Player player)) return; // command blocks cannot access a directory
+        boolean isGlobal = args[0].equalsIgnoreCase("-global");
+        if (isGlobal) {
+            boolean isPermissioned = PermissionManager.isPermissioned(player.getName());
+            if (args.length < 2) {
+                Message.sendMessage(player, "teleport_delete_short_argument");
+                return;
+            } else if (!isPermissioned) {
+                Message.sendMessage(player, "no_permission");
+                return;
+            }
+        }
 
         // prework
         String locationName = args[0];
-        String UUID = player.getUniqueId().toString();
-        String directory = UUID;
+        String directory = player.getUniqueId().toString();
 
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration locationConfig = customFiles[0].getFileConfiguration(locationName, UUID+"/"+ FinalVariables.LOCATION);
+        FileConfiguration locationConfig = customFiles[0].getFileConfiguration(locationName, directory+"/"+ Finals.ItemType.LOCATION.label);
 
         String parentName = locationConfig.getString("Parent.Name");
         int slot = locationConfig.getInt("Parent.Slot");
         // delete
-        customFiles[0].delete(locationName, UUID+"/"+ FinalVariables.LOCATION);
-        ListManager.remove(UUID, locationName, FinalVariables.LOCATION);
-        ParentManager.setChildren(directory, locationName, parentName, FinalVariables.LOCATION, slot);
+        customFiles[0].delete(locationName, directory+"/"+ Finals.ItemType.LOCATION.label);
+        ListManager.remove(directory, locationName, Finals.ItemType.LOCATION.label);
+        ParentManager.setChildren(directory, parentName, Finals.EMPTY, Finals.EMPTY, slot);
+
+        Message.sendMessage(player, "teleport_delete_success", locationName);
     }
 
-    public static List<String> completer(CommandSender sender, String[] args) {
+    public static List<String> completer(CommandSender sender, String[] args, String label) {
         List<String> arguments = new ArrayList<String>();
-        arguments.add(Message.getMessage(sender, "wip"));
+        boolean isPermissioned = false;
+        if (!(sender instanceof Player player)) return arguments;
+        isPermissioned = PermissionManager.isPermissioned(player.getName());
+        String directory = "";
+
+        switch (args.length) {
+            case 1 -> {
+                directory = player.getUniqueId().toString();
+                List<String> locations = ListManager.getItems(directory, Finals.ItemType.LOCATION.label);
+                arguments.addAll(locations);
+                if (isPermissioned) arguments.add("-global");
+            }
+            case 2 -> {
+                if (isPermissioned && args[0].equalsIgnoreCase("-global")) {
+                    directory = Finals.GLOBAL;
+                    List<String> locations = ListManager.getItems(directory, Finals.ItemType.LOCATION.label);
+                    arguments.addAll(locations);
+                }
+            }
+        }
+
         return arguments;
     }
 }

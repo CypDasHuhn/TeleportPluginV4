@@ -6,6 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class SpigotMethods {
@@ -22,6 +24,16 @@ public class SpigotMethods {
                 return player;
             }
         }
+    }
+
+    public static List<String> getPossibleTargets() {
+        List<String> players = new ArrayList<String>();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            players.add(player.getName());
+        }
+        players.add("@p");
+        players.add("@r");
+        return players;
     }
 
     public static Player getRandomPlayer() {

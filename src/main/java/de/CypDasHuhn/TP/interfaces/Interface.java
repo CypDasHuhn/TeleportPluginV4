@@ -36,8 +36,8 @@ public class Interface {
             Inventory inventory = (Inventory) method.invoke(null, player);
 
             player.openInventory(inventory);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
 
         opening.put(player, false);

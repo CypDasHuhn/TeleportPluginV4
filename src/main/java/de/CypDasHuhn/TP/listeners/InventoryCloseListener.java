@@ -13,6 +13,11 @@ public class InventoryCloseListener implements Listener {
         Player player = (Player) event.getPlayer();
         Boolean currentlyOpening = Interface.opening.get(player);
 
+        if (currentlyOpening == null) {
+            currentlyOpening = false;
+            Interface.opening.put(player, false);
+        }
+
         if (!currentlyOpening) {
             PlayerDataManager.setInventory(player, null);
         }

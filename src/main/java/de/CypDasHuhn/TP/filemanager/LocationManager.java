@@ -2,7 +2,7 @@ package de.CypDasHuhn.TP.filemanager;
 
 import de.CypDasHuhn.TP.message.Message;
 import de.CypDasHuhn.TP.shared.FileManagerMethods;
-import de.CypDasHuhn.TP.shared.FinalVariables;
+import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,7 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class LocationManager {
     public static void register(CommandSender sender, String directory, String name, String parentName, Location location) {
         // check
-        boolean exists = FileManagerMethods.itemExists(directory, name, FinalVariables.LOCATION);
+        boolean exists = FileManagerMethods.itemExists(directory, name, Finals.ItemType.LOCATION.label);
         if (exists) {
             Message.sendMessage(sender, "register_location_exists", name);
             return;
@@ -24,30 +24,26 @@ public class LocationManager {
 
         // Prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
-        FileConfiguration childConfig = customFiles[0].getFileConfiguration(name,directory+"/"+ FinalVariables.LOCATION);
+        FileConfiguration childConfig = customFiles[0].getFileConfiguration(name,directory+"/"+ Finals.ItemType.LOCATION.label);
         // Set
         childConfig.set("Location", location);
         // Save
         CustomFiles.saveArray(customFiles);
         // Other Calls
         int freeSlot = FileManagerMethods.getFreeSlot(directory, parentName);
-        ParentManager.setChildren(directory, parentName, name, FinalVariables.LOCATION, freeSlot);
-        ChildManager.setParent(directory,name, FinalVariables.LOCATION,parentName, freeSlot);
-        ListManager.add(directory, name, FinalVariables.LOCATION);
-
-        Message.sendMessage(sender, "register_location_created");
+        ParentManager.setChildren(directory, parentName, name, Finals.ItemType.LOCATION.label, freeSlot);
+        ChildManager.setParent(directory,name, Finals.ItemType.LOCATION.label,parentName, freeSlot);
+        ListManager.add(directory, name, Finals.ItemType.LOCATION.label);
     }
 
-    public static void updateName() {
-
-    }
-
-    public static void updateSlot() {
-
-    }
-
-    public static void updateParent() {
-
+    public static void setLocation(String directory, String childrenName, Location location) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        FileConfiguration childConfig = customFiles[0].getFileConfiguration(childrenName,directory+"/"+ Finals.ItemType.LOCATION.label);
+        // Set
+        childConfig.set("Location", location);
+        // Save
+        CustomFiles.saveArray(customFiles);
     }
 
     public static Location getLocation() {
