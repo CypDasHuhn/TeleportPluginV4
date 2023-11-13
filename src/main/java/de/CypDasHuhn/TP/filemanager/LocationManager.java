@@ -12,13 +12,13 @@ public class LocationManager {
         // check
         boolean exists = FileManagerMethods.itemExists(directory, name, Finals.ItemType.LOCATION.label);
         if (exists) {
-            Message.sendMessage(sender, "register_location_exists", name);
+            Message.sendMessage(sender, Finals.Messages.LOCATION_NAME_EXISTS.label, name);
             return;
         }
 
         boolean illegalName = FileManagerMethods.illegalName(name);
         if (illegalName) {
-            Message.sendMessage(sender, "illegal_name", name);
+            Message.sendMessage(sender, Finals.Messages.ILLEGAL_NAME.label, name);
             return;
         }
 

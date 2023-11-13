@@ -3,6 +3,7 @@ package de.CypDasHuhn.TP.command;
 import de.CypDasHuhn.TP.filemanager.PermissionManager;
 import de.CypDasHuhn.TP.filemanager.PlayerListManager;
 import de.CypDasHuhn.TP.message.Message;
+import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -19,24 +20,29 @@ public class Permission {
         else if (sender instanceof Player player) isPermissioned = PermissionManager.isPermissioned(player.getName());
 
         if (!isPermissioned) {
-            Message.sendMessage(sender, "no_permission");
+            Message.sendMessage(sender, Finals.Messages.NO_PERMISSION.label);
             return;
         }
 
         if (args.length < 1) {
-            Message.sendMessage(sender, "permission_short_argument");
+            Message.sendMessage(sender, Finals.Messages.PLAYER_NOT_GIVEN.label);
+            return;
+        }
+        String targetPlayer = args[0];
+        boolean playerExists = PlayerListManager.existsByName(targetPlayer);
+        if (!playerExists) {
+            Message.sendMessage(sender, Finals.Messages.PLAYER_NOT_FOUND_CONFIG.label);
             return;
         }
         // prework
-        String targetPlayer = args[0];
         boolean targetPlayerPermissioned = PermissionManager.isPermissioned(targetPlayer);
         // handle
         if (!targetPlayerPermissioned) {
             PermissionManager.add(targetPlayer);
-            Message.sendMessage(sender, "permission_added", targetPlayer);
+            Message.sendMessage(sender, Finals.Messages.PERMISSION_ADDED.label, targetPlayer);
         } else {
             PermissionManager.remove(targetPlayer);
-            Message.sendMessage(sender, "permission_removed", targetPlayer);
+            Message.sendMessage(sender, Finals.Messages.PERMISSION_REMOVED.label, targetPlayer);
         }
     }
 

@@ -22,26 +22,26 @@ public class TeleportEdit {
         // check
         if (!(sender instanceof Player player)) return; // The Command Block cannot give a directory for the command.
 
-        boolean isGlobal = args.length > 0 && args[0].equalsIgnoreCase("-global");
+        boolean isGlobal = args.length > 0 && args[0].equals(Finals.Attributes.GLOBAL.label);
 
         if (isGlobal) {
             boolean isPermissioned = PermissionManager.isPermissioned(player.getName());
             if (!isPermissioned) {
-                Message.sendMessage(player, "no_permission");
+                Message.sendMessage(player, Finals.Messages.NO_PERMISSION.label);
                 return;
             }
         }
         int isGlobalBonus = isGlobal ? 1 : 0;
         if (args.length < 1+isGlobalBonus) {
-            Message.sendMessage(player, "teleport_edit_short_argument_name");
+            Message.sendMessage(player, Finals.Messages.NO_LOCATION_NAME_TARGET_GIVEN.label);
             return;
         }
         if (args.length < 2+isGlobalBonus) {
-            Message.sendMessage(player, "teleport_edit_short_argument_mode");
+            Message.sendMessage(player, Finals.Messages.MODE_NOT_GIVEN.label);
             return;
         }
         if (args.length < 3+isGlobalBonus && args[1+isGlobalBonus].equalsIgnoreCase(NAME_MODE)) {
-            Message.sendMessage(player, "teleport_edit_short_argument_custom_name");
+            Message.sendMessage(player, Finals.Messages.NO_LOCATION_NAME_CREATED_GIVEN.label);
             return;
         }
 
@@ -51,12 +51,13 @@ public class TeleportEdit {
 
         boolean locationExists = FileManagerMethods.itemExists(directory, locationName, Finals.ItemType.LOCATION.label);
         if (!locationExists) {
-            Message.sendMessage(player, "teleport_location_not_found");
+            Message.sendMessage(player, Finals.Messages.NO_LOCATION_NAME_TARGET_FOUND.label, locationName);
             return;
         }
 
-        if (!(mode.equalsIgnoreCase(LOCATION_MODE) || mode.equalsIgnoreCase(NAME_MODE))) {
-            Message.sendMessage(player, "teleport_edit_mode_not_found");
+        boolean existingMode = (mode.equalsIgnoreCase(LOCATION_MODE) || mode.equalsIgnoreCase(NAME_MODE));
+        if (!existingMode) {
+            Message.sendMessage(player, Finals.Messages.MODE_NOT_GIVEN.label, mode);
             return;
         }
 
@@ -68,18 +69,20 @@ public class TeleportEdit {
             String newName = args[2+isGlobalBonus];
             ChildManager.renameItem(directory, locationName, newName, Finals.ItemType.LOCATION.label);
         }
+
+        Message.sendMessage(player, Finals.Messages.TELEPORT_EDIT_SUCCESS.label, locationName);
     }
 
     public static List<String> completer(CommandSender sender, String[] args, String label) {
         List<String> arguments = new ArrayList<String>();
         if (!(sender instanceof  Player player)) return arguments; // command blocks cannot access a directory
         boolean isPermissioned = PermissionManager.isPermissioned(player.getName());
-        boolean isGlobal = args.length > 0 && args[0].equalsIgnoreCase("-global");
+        boolean isGlobal = args.length > 0 && args[0].equals(Finals.Attributes.GLOBAL.label);
         int isGlobalBonus = isGlobal ? 1 : 0;
         String directory = "";
 
         if (args.length == 1) {
-            if (isPermissioned) arguments.add("-global");
+            if (isPermissioned) arguments.add(Finals.Messages.NO_PERMISSION.label);
         }
         if (args.length == 1+isGlobalBonus) {
             if (isGlobal && !isPermissioned) return arguments;
@@ -112,3 +115,4 @@ public class TeleportEdit {
         return arguments;
     }
 }
+// /tg -find[(tag IS "cooles gebäude" OR directory NOT "Uncoole Gebäude") AND tag IS "Cyps Gebäude"] @r

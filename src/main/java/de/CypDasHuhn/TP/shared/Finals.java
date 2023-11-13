@@ -19,25 +19,35 @@ public class Finals {
             this.label = label;
         }
     }
-
     public enum Messages {
         NO_PERMISSION("no_permission"),
         ILLEGAL_NAME("illegal_name"),
 
-        PERMISSION_SHORT_ARGS("permission_short_argument"),
         PERMISSION_ADDED("permission_added"),
         PERMISSION_REMOVED("permission_removed"),
 
-        NO_LOCATION_NAME_TARGET_GIVEN("no_location_name_target_given"),
-        NO_LOCATION_NAME_TARGET_FOUND("no_location_name_target_found"),
+        NO_LOCATION_NAME_TARGET_GIVEN("location_not_given_target"),
+        NO_LOCATION_NAME_CREATED_GIVEN("location_not_given_custom"),
+        NO_LOCATION_NAME_TARGET_FOUND("location_not_found"),
         LOCATION_NAME_EXISTS("location_name_exists"),
 
-        NO_FOLDER_NAME_TARGET_GIVEN("no_folder_name_target_given"),
-        NO_FOLDER_NAME_TARGET_FOUND("no_folder_name_target_found"),
+        NO_FOLDER_NAME_TARGET_GIVEN("folder_not_given_target"),
+        NO_FOLDER_NAME_CREATED_GIVEN("folder_not_given_custom"),
+        NO_FOLDER_NAME_TARGET_FOUND("folder_not_found"),
         FOLDER_NAME_EXISTS("folder_name_exists"),
 
-        NO_PLAYER_NAME_GIVEN("no_player_name_given"),
-        NO_PLAYER_NAME_FOUND("no_player_name_found"),
+        PLAYER_NOT_FOUND_CONFIG("player_not_found_config"),
+        PLAYER_NOT_FOUND_ONLINE("player_not_found_online"),
+        PLAYER_NOT_GIVEN("player_not_given"),
+
+        MODE_NOT_FOUND("mode_not_found"),
+        MODE_NOT_GIVEN("mode_not_given"),
+
+        TAG_NOT_GIVEN("tag_not_given"),
+        TAG_NOT_FOUND("tag_not_found"),
+
+        ITEM_TYPE_NOT_GIVEN("item_type_not_given"),
+        ITEM_TYPE_NOT_FOUND("item_type_not_found"),
 
         TELEPORT_SET_SUCCESS("teleport_set_success"),
         TELEPORT_EDIT_SUCCESS("teleport_edit_success"),

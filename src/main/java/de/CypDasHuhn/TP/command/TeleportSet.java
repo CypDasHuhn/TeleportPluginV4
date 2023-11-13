@@ -18,17 +18,18 @@ public class TeleportSet {
         if (!(sender instanceof Player player)) return; // The Command Block cannot give a directory for the command.
 
         if (args.length < 1) {
-            Message.sendMessage(player, "teleport_set_short_argument");
+            Message.sendMessage(player, Finals.Messages.NO_LOCATION_NAME_CREATED_GIVEN.label);
             return;
         }
-        boolean isGlobal = args[0].equalsIgnoreCase("-global");
+        boolean isGlobal = args[0].equals(Finals.Attributes.GLOBAL.label);
         if (isGlobal) {
             boolean isPermissioned = PermissionManager.isPermissioned(player.getName());
             if (args.length < 2) {
-                Message.sendMessage(player, "teleport_set_short_argument");
+                Message.sendMessage(player, Finals.Messages.NO_LOCATION_NAME_CREATED_GIVEN.label);
                 return;
-            } else if (!isPermissioned) {
-                Message.sendMessage(player, "no_permission");
+            }
+            if (!isPermissioned) {
+                Message.sendMessage(player, Finals.Messages.NO_PERMISSION.label);
                 return;
             }
         }
@@ -39,7 +40,7 @@ public class TeleportSet {
 
         LocationManager.register(sender, directory, locationName, Finals.DEFAULT_PARENT, playerLocation);
 
-        Message.sendMessage(player, "teleport_set_success", locationName);
+        Message.sendMessage(player, Finals.Messages.TELEPORT_SET_SUCCESS.label, locationName);
     }
 
     public static List<String> completer(CommandSender sender, String[] args, String label) {
@@ -51,10 +52,10 @@ public class TeleportSet {
         switch (args.length) {
             case 1 -> {
                 arguments.add("[Name]");
-                if (isPermissioned) arguments.add("-global");
+                if (isPermissioned) arguments.add(Finals.Attributes.GLOBAL.label);
             }
             case 2 -> {
-                if (isPermissioned && args[0].equalsIgnoreCase("-global")) {
+                if (isPermissioned && args[0].equals(Finals.Attributes.GLOBAL.label)) {
                     arguments.add("[Name]");
                 }
             }

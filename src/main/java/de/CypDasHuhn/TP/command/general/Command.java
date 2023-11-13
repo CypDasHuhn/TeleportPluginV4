@@ -1,6 +1,7 @@
 package de.CypDasHuhn.TP.command.general;
 
 import de.CypDasHuhn.TP.command.*;
+import de.CypDasHuhn.TP.message.Message;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
@@ -18,6 +19,8 @@ public class Command implements CommandExecutor {
         put(TeleportDelete.TELEPORT_DELETE_COMMAND, TeleportDelete.class);
         put(Permission.PERMISSION_COMMAND, Permission.class);
         put(Language.LANGUAGE_COMMAND, Language.class);
+        put(TeleportFolder.FOLDER_COMMAND, TeleportFolder.class);
+        put(TeleportTag.TAG_COMMAND, TeleportTag.class);
     }};
 
     public static final HashMap<String, String[]> aliasesMap = new HashMap<String, String[]>(){{
@@ -29,6 +32,8 @@ public class Command implements CommandExecutor {
         put(TeleportDelete.TELEPORT_DELETE_COMMAND, new String[]{"teleportDelete", "tDelete", "td"});
         put(Permission.PERMISSION_COMMAND, new String[]{"teleportPermission", "tPermission", "tpm"});
         put(Language.LANGUAGE_COMMAND, new String[]{"teleportLanguage", "tLanguage", "tl"});
+        put(TeleportFolder.FOLDER_COMMAND, new String[]{"teleportFolder", "tFolder", "tf"});
+        put(TeleportTag.TAG_COMMAND, new String[]{"teleportTag", "tTag", "tt"});
 
         put(Testcommand.TEST_COMMAND, new String[]{"testCommand"});
     }};
@@ -63,5 +68,27 @@ public class Command implements CommandExecutor {
             }
         }
         return false;
+    }
+
+    public static String processArgument(CommandSender sender, String[] args, int index, Method parsingMethod, String notFoundMessage, String notGivenMessage, Object... vars) {
+        if (args.length < index) {
+            Message.sendMessage(sender, notGivenMessage);
+            return null;
+        }
+
+        String argument = args[index - 1];
+
+        try {
+            Boolean isValid = (Boolean) parsingMethod.invoke(null, argument, vars);
+            if (!isValid) {
+                Message.sendMessage(sender, notFoundMessage, vars);
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return argument;
     }
 }

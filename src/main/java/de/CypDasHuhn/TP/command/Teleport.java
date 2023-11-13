@@ -8,7 +8,6 @@ import de.CypDasHuhn.TP.filemanager.PlayerListManager;
 import de.CypDasHuhn.TP.message.Message;
 import de.CypDasHuhn.TP.shared.Finals;
 import de.CypDasHuhn.TP.shared.SpigotMethods;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Teleport {
-    private static final String PLAYER_NOT_FOUND = "player_not_found";
+    private static final String PLAYER_NOT_FOUND = "player_not_found_online";
 
     public static final String TELEPORT_COMMAND = "teleport";
     public static final String TELEPORT_GLOBAL_COMMAND = "teleportGlobal";
@@ -29,7 +28,7 @@ public class Teleport {
         // check
         if (args.length < 1) {
             // INTERFACE TO-DO
-            Message.sendMessage(sender, "teleport_short_argument");
+            Message.sendMessage(sender, Finals.Messages.NO_LOCATION_NAME_TARGET_GIVEN.label);
             return;
         }
 
@@ -45,7 +44,7 @@ public class Teleport {
 
         if (teleportUser && args.length < 2) {
             // INTERFACE TO-DO
-            Message.sendMessage(sender, "teleport_user_short_argument");
+            Message.sendMessage(sender, Finals.Messages.NO_LOCATION_NAME_TARGET_GIVEN.label);
             return;
         }
 
@@ -70,7 +69,7 @@ public class Teleport {
 
         boolean locationExists = ListManager.findID(directory, locationName, Finals.ItemType.LOCATION.label) != Finals.NULL_INT;
         if (!locationExists) {
-            Message.sendMessage(sender, "teleport_location_not_found", locationName);
+            Message.sendMessage(sender, Finals.Messages.NO_LOCATION_NAME_TARGET_FOUND.label, locationName);
             return;
         }
 
@@ -94,7 +93,7 @@ public class Teleport {
         if (targetPlayerName != null) {
             targetPlayer = SpigotMethods.getPlayer(targetPlayerName, senderLocation);
             if (targetPlayer == null) {
-                Message.sendMessage(player, "player_not_found");
+                Message.sendMessage(sender, Finals.Messages.NO_PLAYER_NAME_FOUND.label);
                 return;
             }
         }

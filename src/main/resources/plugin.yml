@@ -18,6 +18,10 @@ commands:
     aliases:  [te, tEdit]
   teleportDelete:
     aliases: [td, tDelete]
+  teleportTag:
+    aliases: [tt, tTag]
+  teleportFolder:
+    aliases: [tf, tFolder]
   teleportLanguage:
     aliases: [tl, tLanguage]
   teleportPermission:

@@ -20,17 +20,17 @@ public class TeleportDelete {
         if (!(sender instanceof Player player)) return; // command blocks cannot access a directory
 
         if (args.length < 1) {
-            Message.sendMessage(sender, "teleport_delete_short_argument");
+            Message.sendMessage(sender, Finals.Messages.NO_LOCATION_NAME_TARGET_GIVEN.label);
             return;
         }
-        boolean isGlobal = args[0].equalsIgnoreCase("-global");
+        boolean isGlobal = args[0].equals(Finals.Attributes.GLOBAL.label);
         if (isGlobal) {
             boolean isPermissioned = PermissionManager.isPermissioned(player.getName());
             if (args.length < 2) {
-                Message.sendMessage(player, "teleport_delete_short_argument");
+                Message.sendMessage(sender, Finals.Messages.NO_LOCATION_NAME_TARGET_GIVEN.label);
                 return;
             } else if (!isPermissioned) {
-                Message.sendMessage(player, "no_permission");
+                Message.sendMessage(sender, Finals.Messages.NO_PERMISSION.label);
                 return;
             }
         }
@@ -49,7 +49,7 @@ public class TeleportDelete {
         ListManager.remove(directory, locationName, Finals.ItemType.LOCATION.label);
         ParentManager.setChildren(directory, parentName, Finals.EMPTY, Finals.EMPTY, slot);
 
-        Message.sendMessage(player, "teleport_delete_success", locationName);
+        Message.sendMessage(sender, Finals.Messages.TELEPORT_DELETE_SUCCESS.label, locationName);
     }
 
     public static List<String> completer(CommandSender sender, String[] args, String label) {
@@ -64,10 +64,10 @@ public class TeleportDelete {
                 directory = player.getUniqueId().toString();
                 List<String> locations = ListManager.getItems(directory, Finals.ItemType.LOCATION.label);
                 arguments.addAll(locations);
-                if (isPermissioned) arguments.add("-global");
+                if (isPermissioned) arguments.add(Finals.Attributes.GLOBAL.label);
             }
             case 2 -> {
-                if (isPermissioned && args[0].equalsIgnoreCase("-global")) {
+                if (isPermissioned && args[0].equals(Finals.Attributes.GLOBAL.label)) {
                     directory = Finals.GLOBAL;
                     List<String> locations = ListManager.getItems(directory, Finals.ItemType.LOCATION.label);
                     arguments.addAll(locations);
