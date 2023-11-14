@@ -34,6 +34,8 @@ public class LocationManager {
         ParentManager.setChildren(directory, parentName, name, Finals.ItemType.LOCATION.label, freeSlot);
         ChildManager.setParent(directory,name, Finals.ItemType.LOCATION.label,parentName, freeSlot);
         ListManager.add(directory, name, Finals.ItemType.LOCATION.label);
+
+        Message.sendMessage(sender, Finals.Messages.TELEPORT_SET_SUCCESS.label, name);
     }
 
     public static void setLocation(String directory, String childrenName, Location location) {

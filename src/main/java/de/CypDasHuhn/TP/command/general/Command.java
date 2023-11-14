@@ -47,6 +47,7 @@ public class Command implements CommandExecutor {
             String[] aliases = entry.getValue();
 
             if (label.equalsIgnoreCase(commandLabel) || Arrays.stream(aliases).anyMatch(alias -> label.equalsIgnoreCase(alias))) {
+                System.out.println("ein tt!");
                 Class commandClass = commandMap.get(commandLabel);
                 try {
                     Method method = commandClass.getMethod("command", CommandSender.class, String[].class, String.class) ;

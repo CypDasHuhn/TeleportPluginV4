@@ -39,8 +39,6 @@ public class TeleportSet {
         Location playerLocation = player.getLocation();
 
         LocationManager.register(sender, directory, locationName, Finals.DEFAULT_PARENT, playerLocation);
-
-        Message.sendMessage(player, Finals.Messages.TELEPORT_SET_SUCCESS.label, locationName);
     }
 
     public static List<String> completer(CommandSender sender, String[] args, String label) {

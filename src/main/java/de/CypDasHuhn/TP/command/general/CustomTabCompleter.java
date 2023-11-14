@@ -1,6 +1,5 @@
 package de.CypDasHuhn.TP.command.general;
 
-import de.CypDasHuhn.TP.command.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -21,6 +20,8 @@ public class CustomTabCompleter implements TabCompleter {
         for (HashMap.Entry<String, String[]> entry : de.CypDasHuhn.TP.command.general.Command.aliasesMap.entrySet()) {
             String commandLabel = entry.getKey();
             String[] aliases = entry.getValue();
+
+            System.out.println("ein tt!");
 
             if (label.equalsIgnoreCase(commandLabel) || Arrays.stream(aliases).anyMatch(alias -> label.equalsIgnoreCase(alias))) {
                 Class<?> commandClass = de.CypDasHuhn.TP.command.general.Command.commandMap.get(commandLabel);

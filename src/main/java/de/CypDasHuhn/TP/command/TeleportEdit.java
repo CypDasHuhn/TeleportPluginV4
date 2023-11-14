@@ -82,7 +82,7 @@ public class TeleportEdit {
         String directory = "";
 
         if (args.length == 1) {
-            if (isPermissioned) arguments.add(Finals.Messages.NO_PERMISSION.label);
+            if (isPermissioned) arguments.add(Finals.Attributes.GLOBAL.label);
         }
         if (args.length == 1+isGlobalBonus) {
             if (isGlobal && !isPermissioned) return arguments;

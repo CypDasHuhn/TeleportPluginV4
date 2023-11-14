@@ -3,7 +3,8 @@ package de.CypDasHuhn.TP.shared;
 public class Finals {
     public enum ItemType {
         LOCATION("Location"),
-        FOLDER("Folder");
+        FOLDER("Folder"),
+        TAG("Tag");
         public final String label;
         private ItemType(String label) {
             this.label = label;
@@ -19,6 +20,17 @@ public class Finals {
             this.label = label;
         }
     }
+
+    public enum TagModes {
+        ADD("add"),
+        REMOVE("remove"),
+        TOGGLE("toggle");
+        public final String label;
+        private TagModes(String label) {
+            this.label = label;
+        }
+    }
+
     public enum Messages {
         NO_PERMISSION("no_permission"),
         ILLEGAL_NAME("illegal_name"),
@@ -45,6 +57,12 @@ public class Finals {
 
         TAG_NOT_GIVEN("tag_not_given"),
         TAG_NOT_FOUND("tag_not_found"),
+
+        TAG_MODE_NOT_GIVEN("tag_mode_not_given"),
+        TAG_MODE_NOT_FOUND("tag_mode_not_found"),
+
+        ITEM_HAS_TAG_ALREADY("item_has_tag_already"),
+        ITEM_HAS_NOT_TAG("item_has_not_tag"),
 
         ITEM_TYPE_NOT_GIVEN("item_type_not_given"),
         ITEM_TYPE_NOT_FOUND("item_type_not_found"),

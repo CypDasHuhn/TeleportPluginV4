@@ -93,7 +93,7 @@ public class Teleport {
         if (targetPlayerName != null) {
             targetPlayer = SpigotMethods.getPlayer(targetPlayerName, senderLocation);
             if (targetPlayer == null) {
-                Message.sendMessage(sender, Finals.Messages.NO_PLAYER_NAME_FOUND.label);
+                Message.sendMessage(sender, Finals.Messages.PLAYER_NOT_FOUND_ONLINE.label);
                 return;
             }
         }

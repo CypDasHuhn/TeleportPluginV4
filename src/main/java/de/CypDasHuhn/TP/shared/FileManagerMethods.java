@@ -55,6 +55,6 @@ public class FileManagerMethods {
         for (String character : illegalCharacters) {
             if (name.contains(character)) return false;
         }
-        return !illegalName.contains(name);
+        return illegalName.contains(name);
     }
 }
