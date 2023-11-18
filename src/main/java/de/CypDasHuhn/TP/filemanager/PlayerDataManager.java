@@ -28,6 +28,27 @@ public class PlayerDataManager {
         return inventory;
     }
 
+    public static void setDirectory(Player player, String directory) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        String UUID = player.getUniqueId().toString();
+        FileConfiguration playerDataConfig = customFiles[0].getFileConfiguration("Data",UUID);
+        // set
+        playerDataConfig.set("Data.Directory", directory);
+        // save
+        CustomFiles.saveArray(customFiles);
+    }
+
+    public static String getDirectory(Player player) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        String UUID = player.getUniqueId().toString();
+        FileConfiguration playerDataConfig = customFiles[0].getFileConfiguration("Data",UUID);
+        // get
+        String directory = playerDataConfig.getString("Data.Directory");
+        return directory;
+    }
+
     public static void setParent(Player player, String parent) {
         // Prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
@@ -68,6 +89,10 @@ public class PlayerDataManager {
         FileConfiguration playerDataConfig = customFiles[0].getFileConfiguration("Data",UUID);
         // get
         int page = playerDataConfig.getInt("Data.Page");
+        if (page == 0) {
+            page = 1;
+            setPage(player, page);
+        }
         return page;
     }
 }

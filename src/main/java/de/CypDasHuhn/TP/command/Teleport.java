@@ -31,10 +31,11 @@ public class Teleport {
         // check
         if (args.length < 1) {
             if (sender instanceof Player player) {
+                String directory = player.getUniqueId().toString();
                 String parentName = PlayerDataManager.getParent(player);
                 int page = PlayerDataManager.getPage(player);
 
-                Interface.openTargetInterface(player, FolderInterface.interfaceName, parentName, page);
+                Interface.openTargetInterface(player, FolderInterface.interfaceName, directory, parentName, page);
             }
             return;
             /*Message.sendMessage(sender, Finals.Messages.NO_LOCATION_NAME_TARGET_GIVEN.label);

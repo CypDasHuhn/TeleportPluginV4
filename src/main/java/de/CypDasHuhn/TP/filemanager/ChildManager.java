@@ -32,6 +32,15 @@ public class ChildManager {
         CustomFiles.saveArray(customFiles);
     }
 
+    public static ItemStack getItem(String directory, String childrenName, String childrenType) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        FileConfiguration childConfig = customFiles[0].getFileConfiguration(childrenName,directory+"/"+childrenType);
+        // get
+        ItemStack item = childConfig.getItemStack("Item");
+        return item;
+    }
+
     public static void renameItem(String directory, String oldName, String newName, String itemType) {
         // Prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(3);

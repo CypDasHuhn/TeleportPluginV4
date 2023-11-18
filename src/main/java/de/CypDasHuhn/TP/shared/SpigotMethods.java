@@ -84,4 +84,27 @@ public class SpigotMethods {
 
         return itemStack;
     }
+
+    public static ItemStack createItemFromItem(ItemStack itemStack, String name, boolean enchanted, List<String> lore) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+
+        if (name != null) {
+            itemMeta.setDisplayName(name);
+        }
+
+        itemMeta.setLore(lore);
+
+        if (enchanted) {
+            itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 0, true);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        } else {
+            for (Enchantment enchantment : Enchantment.values()) {
+                itemMeta.removeEnchant(enchantment);
+            }
+        }
+
+        itemStack.setItemMeta(itemMeta);
+
+        return itemStack;
+    }
 }

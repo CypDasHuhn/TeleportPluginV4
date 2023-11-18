@@ -1,5 +1,6 @@
 package de.CypDasHuhn.TP.filemanager;
 
+import de.CypDasHuhn.TP.DTO.ItemDTO;
 import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -18,11 +19,43 @@ public class ParentManager {
         CustomFiles.saveArray(customFiles);
     }
 
+    public static ItemDTO getChild(String directory, String parentName, int slot) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        FileConfiguration parentConfig = customFiles[0].getFileConfiguration(parentName,directory+"/"+ Finals.ItemType.FOLDER.label);
+        // get
+        String childrenName = parentConfig.getString("Child."+slot+".Name");
+        String childrenType = parentConfig.getString("Child."+slot+".Type");
+        return childrenType != null ? new ItemDTO(childrenName, childrenType) : null;
+    }
+
     public static int getMaxChildren(String directory, String parentName) {
         // Prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
         FileConfiguration parentConfig = customFiles[0].getFileConfiguration(parentName,directory+"/"+ Finals.ItemType.FOLDER.label);
         // find
         return parentConfig.getInt(MAX_CHILDREN);
+    }
+
+    public static void setRowAmount(String directory, String parentName, int rowAmount) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        FileConfiguration parentConfig = customFiles[0].getFileConfiguration(parentName,directory+"/"+ Finals.ItemType.FOLDER.label);
+        // Set
+        parentConfig.set("RowAmount", rowAmount);
+        // Save
+        CustomFiles.saveArray(customFiles);
+    }
+    public static int getRowAmount(String directory, String parentName)  {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        FileConfiguration parentConfig = customFiles[0].getFileConfiguration(parentName,directory+"/"+ Finals.ItemType.FOLDER.label);
+        // Get
+        int rowAmount = parentConfig.getInt("RowAmount");
+        if (rowAmount == 0) {
+            rowAmount = 6;
+            setRowAmount(directory, parentName, rowAmount);
+        }
+        return rowAmount;
     }
 }

@@ -3,7 +3,9 @@ package de.CypDasHuhn.TP.filemanager;
 import de.CypDasHuhn.TP.message.Message;
 import de.CypDasHuhn.TP.shared.FileManagerMethods;
 import de.CypDasHuhn.TP.shared.Finals;
+import de.CypDasHuhn.TP.shared.SpigotMethods;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -34,6 +36,7 @@ public class LocationManager {
         ParentManager.setChildren(directory, parentName, name, Finals.ItemType.LOCATION.label, freeSlot);
         ChildManager.setParent(directory,name, Finals.ItemType.LOCATION.label,parentName, freeSlot);
         ListManager.add(directory, name, Finals.ItemType.LOCATION.label);
+        ChildManager.setItem(directory, name, Finals.ItemType.LOCATION.label, SpigotMethods.createItem(Material.GRASS_BLOCK, " ", false, null));
 
         Message.sendMessage(sender, Finals.Messages.TELEPORT_SET_SUCCESS.label, name);
     }
@@ -48,8 +51,13 @@ public class LocationManager {
         CustomFiles.saveArray(customFiles);
     }
 
-    public static Location getLocation() {
-        return null;
+    public static Location getLocation(String directory, String childrenName) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        FileConfiguration locationConfig = customFiles[0].getFileConfiguration(childrenName,directory+"/"+ Finals.ItemType.LOCATION.label);
+        // get
+        Location location = locationConfig.getLocation("Location");
+        return location;
     }
 
 
