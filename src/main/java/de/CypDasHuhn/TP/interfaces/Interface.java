@@ -1,6 +1,7 @@
 package de.CypDasHuhn.TP.interfaces;
 
 import de.CypDasHuhn.TP.filemanager.PlayerDataManager;
+import de.CypDasHuhn.TP.filemanager.PlayerListManager;
 import de.CypDasHuhn.TP.interfaces.ConfirmingInterface.ConfirmingInterface;
 import de.CypDasHuhn.TP.interfaces.ConfirmingInterface.ConfirmingInterfaceListener;
 import de.CypDasHuhn.TP.interfaces.FolderInterface.FolderInterface;
@@ -22,7 +23,7 @@ public class Interface {
         put(ConfirmingInterface.class, ConfirmingInterfaceListener.class);
     }};
 
-    private static void routeInterface(Player player, String interfaceName) {
+    public static void openTargetInterface(Player player, String interfaceName, Object... vars) {
         if (!interfaceMap.containsKey(interfaceName)) return;
 
         opening.put(player, true);
@@ -31,9 +32,9 @@ public class Interface {
         Class<?> interfaceClass = interfaceMap.get(interfaceName);
 
         try {
-            java.lang.reflect.Method method = interfaceClass.getMethod("getInterface", Player.class);
+            java.lang.reflect.Method method = interfaceClass.getMethod("getInterface", Player.class, Object[].class);
 
-            Inventory inventory = (Inventory) method.invoke(null, player);
+            Inventory inventory = (Inventory) method.invoke(null, player, vars);
 
             player.openInventory(inventory);
         } catch (Exception exception) {
@@ -41,5 +42,11 @@ public class Interface {
         }
 
         opening.put(player, false);
+    }
+
+    public static void openCurrentInterface(Player player, Object... vars) {
+        String interfaceName = PlayerDataManager.getInventory(player);
+
+        openTargetInterface(player, interfaceName, vars);
     }
 }

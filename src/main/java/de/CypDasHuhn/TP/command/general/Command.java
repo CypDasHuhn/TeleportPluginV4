@@ -47,7 +47,6 @@ public class Command implements CommandExecutor {
             String[] aliases = entry.getValue();
 
             if (label.equalsIgnoreCase(commandLabel) || Arrays.stream(aliases).anyMatch(alias -> label.equalsIgnoreCase(alias))) {
-                System.out.println("ein tt!");
                 Class commandClass = commandMap.get(commandLabel);
                 try {
                     Method method = commandClass.getMethod("command", CommandSender.class, String[].class, String.class) ;
@@ -69,27 +68,5 @@ public class Command implements CommandExecutor {
             }
         }
         return false;
-    }
-
-    public static String processArgument(CommandSender sender, String[] args, int index, Method parsingMethod, String notFoundMessage, String notGivenMessage, Object... vars) {
-        if (args.length < index) {
-            Message.sendMessage(sender, notGivenMessage);
-            return null;
-        }
-
-        String argument = args[index - 1];
-
-        try {
-            Boolean isValid = (Boolean) parsingMethod.invoke(null, argument, vars);
-            if (!isValid) {
-                Message.sendMessage(sender, notFoundMessage, vars);
-                return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        return argument;
     }
 }

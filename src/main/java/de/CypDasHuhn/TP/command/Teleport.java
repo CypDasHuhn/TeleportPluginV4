@@ -4,7 +4,10 @@ import de.CypDasHuhn.TP.command.general.Command;
 import de.CypDasHuhn.TP.compability.LocationCompability;
 import de.CypDasHuhn.TP.filemanager.CustomFiles;
 import de.CypDasHuhn.TP.filemanager.ListManager;
+import de.CypDasHuhn.TP.filemanager.PlayerDataManager;
 import de.CypDasHuhn.TP.filemanager.PlayerListManager;
+import de.CypDasHuhn.TP.interfaces.FolderInterface.FolderInterface;
+import de.CypDasHuhn.TP.interfaces.Interface;
 import de.CypDasHuhn.TP.message.Message;
 import de.CypDasHuhn.TP.shared.Finals;
 import de.CypDasHuhn.TP.shared.SpigotMethods;
@@ -27,9 +30,15 @@ public class Teleport {
     public static void command(CommandSender sender, String[] args, String label) {
         // check
         if (args.length < 1) {
-            // INTERFACE TO-DO
-            Message.sendMessage(sender, Finals.Messages.NO_LOCATION_NAME_TARGET_GIVEN.label);
+            if (sender instanceof Player player) {
+                String parentName = PlayerDataManager.getParent(player);
+                int page = PlayerDataManager.getPage(player);
+
+                Interface.openTargetInterface(player, FolderInterface.interfaceName, parentName, page);
+            }
             return;
+            /*Message.sendMessage(sender, Finals.Messages.NO_LOCATION_NAME_TARGET_GIVEN.label);
+            return;*/
         }
 
         boolean teleport = Command.isCommand(label, TELEPORT_COMMAND);

@@ -27,4 +27,47 @@ public class PlayerDataManager {
         if (inventory == null) inventory = Finals.EMPTY;
         return inventory;
     }
+
+    public static void setParent(Player player, String parent) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        String UUID = player.getUniqueId().toString();
+        FileConfiguration playerDataConfig = customFiles[0].getFileConfiguration("Data",UUID);
+        // set
+        playerDataConfig.set("Data.Parent", parent);
+        // save
+        CustomFiles.saveArray(customFiles);
+    }
+
+    public static String getParent(Player player) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        String UUID = player.getUniqueId().toString();
+        FileConfiguration playerDataConfig = customFiles[0].getFileConfiguration("Data",UUID);
+        // get
+        String parentName = playerDataConfig.getString("Data.Parent");
+        if (parentName == null) parentName = Finals.DEFAULT_PARENT;
+        return parentName;
+    }
+
+    public static void setPage(Player player, int page) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        String UUID = player.getUniqueId().toString();
+        FileConfiguration playerDataConfig = customFiles[0].getFileConfiguration("Data",UUID);
+        // set
+        playerDataConfig.set("Data.Page", page);
+        // save
+        CustomFiles.saveArray(customFiles);
+    }
+
+    public static int getPage(Player player) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        String UUID = player.getUniqueId().toString();
+        FileConfiguration playerDataConfig = customFiles[0].getFileConfiguration("Data",UUID);
+        // get
+        int page = playerDataConfig.getInt("Data.Page");
+        return page;
+    }
 }

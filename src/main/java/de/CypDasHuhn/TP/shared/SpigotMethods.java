@@ -3,8 +3,13 @@ package de.CypDasHuhn.TP.shared;
 import de.CypDasHuhn.TP.message.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,4 +65,23 @@ public class SpigotMethods {
         return nearestPlayer;
     }
 
+    public static ItemStack createItem(Material material, String name, boolean enchanted, List<String> lore) {
+        ItemStack itemStack = new ItemStack(material);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+
+        if (name != null) {
+            itemMeta.setDisplayName(name);
+        }
+
+        itemMeta.setLore(lore);
+
+        if (enchanted) {
+            itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 0, true);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+
+        itemStack.setItemMeta(itemMeta);
+
+        return itemStack;
+    }
 }
