@@ -6,6 +6,8 @@ import de.CypDasHuhn.TP.interfaces.ConfirmingInterface.ConfirmingInterface;
 import de.CypDasHuhn.TP.interfaces.ConfirmingInterface.ConfirmingInterfaceListener;
 import de.CypDasHuhn.TP.interfaces.FolderInterface.FolderInterface;
 import de.CypDasHuhn.TP.interfaces.FolderInterface.FolderInterfaceListener;
+import de.CypDasHuhn.TP.interfaces.Skeleton.SkeletonInterface;
+import de.CypDasHuhn.TP.interfaces.Skeleton.SkeletonInterfaceListener;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -13,14 +15,14 @@ import java.util.HashMap;
 
 public class Interface {
     public static HashMap<Player, Boolean> opening = new HashMap<Player, Boolean>();
-    public static final HashMap<String, Class> interfaceMap = new HashMap<String, Class>(){{
-       put(FolderInterface.interfaceName, FolderInterface.class);
-       put(ConfirmingInterface.interfaceName, ConfirmingInterface.class);
+    public static final HashMap<String, SkeletonInterface> interfaceMap = new HashMap<String, SkeletonInterface>(){{
+       put(FolderInterface.interfaceName, new FolderInterface());
+       put(ConfirmingInterface.interfaceName, new ConfirmingInterface());
     }};
 
-    public static final HashMap<Class, Class> listenerMap = new HashMap<Class, Class>() {{
-        put(FolderInterface.class, FolderInterfaceListener.class);
-        put(ConfirmingInterface.class, ConfirmingInterfaceListener.class);
+    public static final HashMap<String, SkeletonInterfaceListener> listenerMap = new HashMap<String, SkeletonInterfaceListener>(){{
+        put(FolderInterface.interfaceName, new FolderInterfaceListener());
+        put(ConfirmingInterface.interfaceName, new ConfirmingInterfaceListener());
     }};
 
     public static void openTargetInterface(Player player, String interfaceName, Object... vars) {
@@ -29,17 +31,10 @@ public class Interface {
         opening.put(player, true);
         PlayerDataManager.setInventory(player, interfaceName);
 
-        Class<?> interfaceClass = interfaceMap.get(interfaceName);
+        SkeletonInterface skeletonInterface = interfaceMap.get(interfaceName);
 
-        try {
-            java.lang.reflect.Method method = interfaceClass.getMethod("getInterface", Player.class, Object[].class);
-
-            Inventory inventory = (Inventory) method.invoke(null, player, vars);
-
-            player.openInventory(inventory);
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
+        Inventory customInterface = skeletonInterface.getInterface(player, vars);
+        player.openInventory(customInterface);
 
         opening.put(player, false);
     }

@@ -1,9 +1,11 @@
 package de.CypDasHuhn.TP.interfaces.FolderInterface;
 
+import de.CypDasHuhn.TP.DTO.FolderInterfaceDTO;
 import de.CypDasHuhn.TP.DTO.ItemDTO;
 import de.CypDasHuhn.TP.filemanager.ChildManager;
 import de.CypDasHuhn.TP.filemanager.ParentManager;
 import de.CypDasHuhn.TP.filemanager.PlayerDataManager;
+import de.CypDasHuhn.TP.interfaces.Skeleton.SkeletonInterface;
 import de.CypDasHuhn.TP.shared.Finals;
 import de.CypDasHuhn.TP.shared.SpigotMethods;
 import org.bukkit.Bukkit;
@@ -12,21 +14,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class FolderInterface {
+public class FolderInterface extends SkeletonInterface {
     public static final String interfaceName = "Folder_Interface";
     public static final Class listener = FolderInterfaceListener.class;
 
     public static final int previousArrowSlot = 1;
     public static final int nextArrowSlot = 7;
 
-    public static Inventory getInterface(Player player, Object... vars) {
-        String directory = (String) vars[0];
-        String parentName = (String) vars[1];
-        int page = (int) vars[2];
+    @Override
+    public Inventory getInterface(Player player, Object... vars) {
+        String directory = ((FolderInterfaceDTO) vars[0]).directory;
+        String parentName = ((FolderInterfaceDTO) vars[0]).parentName;
+        int page = ((FolderInterfaceDTO) vars[0]).page;
 
-        PlayerDataManager.setDirectory(player, directory);
-        PlayerDataManager.setParent(player, parentName);
-        PlayerDataManager.setPage(player, page);
+        PlayerDataManager.setInterfaceInformation(player, (FolderInterfaceDTO) vars[0]);
 
         int rowAmount = ParentManager.getRowAmount(directory, parentName);
         int lastRow = (rowAmount-1)*9;

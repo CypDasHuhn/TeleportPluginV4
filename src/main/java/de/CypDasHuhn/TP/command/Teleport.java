@@ -28,54 +28,48 @@ public class Teleport {
     public static final String TELEPORT_USER_COMMAND = "teleportUser";
 
     public static void command(CommandSender sender, String[] args, String label) {
+        boolean isTeleportCommand = Command.isCommand(label, TELEPORT_COMMAND);
+        boolean isTeleportGlobalCommand = Command.isCommand(label, TELEPORT_GLOBAL_COMMAND);
+        boolean isTeleportUserCommand = Command.isCommand(label, TELEPORT_USER_COMMAND);
+
+        int bonus = isTeleportUserCommand ? 1 : 0;
         // check
-        if (args.length < 1) {
-            if (sender instanceof Player player) {
-                String directory = player.getUniqueId().toString();
+
+        if (isTeleportCommand && !(sender instanceof Player)) return; // command blocks don't have their own directory
+
+        if (isTeleportUserCommand) {
+            if (args.length < 1) {
+                Message.sendMessage(sender, Finals.Messages.PLAYER_NOT_GIVEN.label);
+                return;
+            } else {
+                String targetPlayer = args[0];
+                boolean playerExists = PlayerListManager.existsByName(targetPlayer);
+                if (!playerExists) {
+                    Message.sendMessage(sender, Finals.Messages.PLAYER_NOT_FOUND_CONFIG.label, targetPlayer);
+                    return;
+                }
+            }
+        }
+
+        String directory;
+        if (isTeleportCommand) directory = ((Player)sender).getUniqueId().toString();
+        else if (isTeleportUserCommand) directory = args[0]; // targetPlayer
+        else directory = Finals.GLOBAL; // isGlobalCommand
+
+        if (args.length < 1+bonus) {
+            if (sender instanceof Player player) { // command blocks can not open an interface
                 String parentName = PlayerDataManager.getParent(player);
                 int page = PlayerDataManager.getPage(player);
 
                 Interface.openTargetInterface(player, FolderInterface.interfaceName, directory, parentName, page);
             }
             return;
-            /*Message.sendMessage(sender, Finals.Messages.NO_LOCATION_NAME_TARGET_GIVEN.label);
-            return;*/
         }
 
-        boolean teleport = Command.isCommand(label, TELEPORT_COMMAND);
-        boolean teleportGlobal = Command.isCommand(label, TELEPORT_GLOBAL_COMMAND);
-        boolean teleportUser = Command.isCommand(label, TELEPORT_USER_COMMAND);
-
-        Boolean[] commandTypes = {teleport, teleportGlobal, teleportUser};
-
-        if (teleport && !(sender instanceof Player)) {
-            return;
-        }
-
-        if (teleportUser && args.length < 2) {
-            // INTERFACE TO-DO
-            Message.sendMessage(sender, Finals.Messages.NO_LOCATION_NAME_TARGET_GIVEN.label);
-            return;
-        }
-
-        Location senderLocation;
-        Player player = null;
-        if (sender instanceof Player) {
-            player = (Player) sender;
-            senderLocation = player.getLocation();
-        } else {
-            BlockCommandSender blockCommandSender = (BlockCommandSender) sender;
-            senderLocation = blockCommandSender.getBlock().getLocation();
-        }
-
-        String directory = getDirectory(sender, commandTypes, args);
-        if (directory.equals(PLAYER_NOT_FOUND)) {
-            Message.sendMessage(sender, PLAYER_NOT_FOUND);
-            return;
-        }
+        Location senderLocation = (sender instanceof Player) ? ((Player) sender).getLocation() : ((BlockCommandSender)sender).getBlock().getLocation();
 
         String locationName = args[0];
-        if (teleportUser) locationName = args[1];
+        if (isTeleportUserCommand) locationName = args[1];
 
         boolean locationExists = ListManager.findID(directory, locationName, Finals.ItemType.LOCATION.label) != Finals.NULL_INT;
         if (!locationExists) {
@@ -94,9 +88,9 @@ public class Teleport {
 
         Player targetPlayer = null;
         String targetPlayerName = null;
-        if ((teleport || teleportGlobal) && args.length > 1) targetPlayerName = args[1];
-        else if (teleportUser && args.length > 2) targetPlayerName = args[2];
-        else if (player != null) targetPlayer = player;
+        if ((isTeleportCommand || isTeleportGlobalCommand) && args.length > 1) targetPlayerName = args[1];
+        else if (isTeleportUserCommand && args.length > 2) targetPlayerName = args[2];
+        else if (sender instanceof Player) targetPlayer = (Player)sender;
         else return;
 
 
@@ -112,74 +106,45 @@ public class Teleport {
     }
 
     public static List<String> completer(CommandSender sender, String[] args, String label) {
-        boolean teleport = Command.isCommand(label, TELEPORT_COMMAND);
-        boolean teleportGlobal = Command.isCommand(label, TELEPORT_GLOBAL_COMMAND);
-        boolean teleportUser = Command.isCommand(label, TELEPORT_USER_COMMAND);
+        boolean isTeleportCommand = Command.isCommand(label, TELEPORT_COMMAND);
+        boolean isTeleportGlobalCommand = Command.isCommand(label, TELEPORT_GLOBAL_COMMAND);
+        boolean isTeleportUserCommand = Command.isCommand(label, TELEPORT_USER_COMMAND);
 
-        Boolean[] commandTypes = {teleport, teleportGlobal, teleportUser};
-
-        String directory = getDirectory(sender, commandTypes, args);
+        int bonus = isTeleportUserCommand ? 1 : 0;
 
         List<String> arguments = new ArrayList<String>();
-        switch (args.length) {
-            case 1 -> {
-                if (teleport || teleportGlobal) {
-                    List<String> locations = ListManager.getItems(directory, Finals.ItemType.LOCATION.label);
-                    arguments.addAll(locations);
-                }
 
-                if (teleportUser) {
-                    List<String> players = PlayerListManager.getPlayers();
-                    System.out.println(players);
-                    arguments.addAll(players);
-                }
-            }
-            case 2 -> {
-                if (teleport ||teleportGlobal) {
-                    List<String> players = SpigotMethods.getPossibleTargets();
-                    arguments.addAll(players);
-                }
-
-                if (teleportUser) {
-                    if (directory.equals(PLAYER_NOT_FOUND)) break;
-                    List<String> locations = ListManager.getItems(directory, Finals.ItemType.LOCATION.label);
-                    System.out.println(locations);
-                    arguments.addAll(locations);
-                }
-            }
-            case 3 -> {
-                if (teleportUser ) {
-                    if (directory.equals(PLAYER_NOT_FOUND)) break;
-                    List<String> players = SpigotMethods.getPossibleTargets();
-                    arguments.addAll(players);
-                }
-            }
-
+        if (isTeleportUserCommand && args.length == 1) {
+            List<String> players = PlayerListManager.getPlayers();
+            arguments.addAll(players);
         }
+
+        if (isTeleportUserCommand) {
+            int playerNameIndex = 0;
+            boolean isPlayer = args.length > playerNameIndex && (PlayerListManager.existsByName(args[playerNameIndex]));
+            if (args.length > playerNameIndex && !isPlayer) return arguments;
+        }
+
+        String directory;
+        if (isTeleportCommand) directory = ((Player)sender).getUniqueId().toString();
+        else if (isTeleportUserCommand) directory = args[0]; // targetPlayer
+        else directory = Finals.GLOBAL; // isGlobalCommand
+
+        if (args.length == 1+bonus) {
+            List<String> locations = ListManager.getItems(directory, Finals.ItemType.LOCATION.label);
+            arguments.addAll(locations);
+        }
+
+        int locationNameIndex = 1;
+        boolean isLocation = args.length > locationNameIndex && (PlayerListManager.existsByName(args[locationNameIndex]));
+        if (args.length > locationNameIndex && !isLocation) return arguments;
+
+        if (args.length == 2+bonus) {
+            List<String> players = SpigotMethods.getPossibleTargets();
+            arguments.addAll(players);
+        }
+
         return arguments;
     }
 
-    public static String getDirectory(CommandSender sender, Boolean[] commandType, String[] args) {
-        boolean teleport = commandType[0];
-        boolean teleportGlobal = commandType[1];
-        boolean teleportUser = commandType[2];
-
-        Player player = null;
-        if (sender instanceof Player) player = (Player) sender;
-
-        String directory = "";
-        if (teleportGlobal) directory = Finals.GLOBAL;
-        else if (teleport) directory = player.getUniqueId().toString();
-        else if (teleportUser) {
-            String playerName = args[0];
-
-            boolean playerExists = PlayerListManager.existsByName(playerName);
-            if (!playerExists) {
-                return PLAYER_NOT_FOUND;
-            }
-
-            directory = PlayerListManager.getByName(playerName);
-        }
-        return directory;
-    }
 }

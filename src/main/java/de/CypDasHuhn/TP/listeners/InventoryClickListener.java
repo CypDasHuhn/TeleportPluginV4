@@ -2,6 +2,7 @@ package de.CypDasHuhn.TP.listeners;
 
 import de.CypDasHuhn.TP.filemanager.PlayerDataManager;
 import de.CypDasHuhn.TP.interfaces.Interface;
+import de.CypDasHuhn.TP.interfaces.Skeleton.SkeletonInterfaceListener;
 import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,19 +18,10 @@ public class InventoryClickListener implements Listener {
         boolean emptyInventory = inventory.equals(Finals.EMPTY);
         if (emptyInventory) return;
 
-        boolean illegalInventory = !Interface.interfaceMap.containsKey(inventory);
+        boolean illegalInventory = !Interface.listenerMap.containsKey(inventory);
         if (illegalInventory) return;
 
-        Class<?> InterfaceClass = Interface.interfaceMap.get(inventory);
-
-        if (Interface.listenerMap.containsKey(InterfaceClass)) {
-            Class<?> ListenerClass = Interface.listenerMap.get(InterfaceClass);
-            try {
-                java.lang.reflect.Method listenerMethod = ListenerClass.getMethod("listener", InventoryClickEvent.class);
-                listenerMethod.invoke(null, event);
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-        }
+        SkeletonInterfaceListener listener = Interface.listenerMap.get(inventory);
+        listener.listener(event);
     }
 }

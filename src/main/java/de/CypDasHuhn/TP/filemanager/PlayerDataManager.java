@@ -1,5 +1,6 @@
 package de.CypDasHuhn.TP.filemanager;
 
+import de.CypDasHuhn.TP.DTO.FolderInterfaceDTO;
 import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -94,5 +95,33 @@ public class PlayerDataManager {
             setPage(player, page);
         }
         return page;
+    }
+
+    public static FolderInterfaceDTO getInterfaceInformation(Player player) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        String UUID = player.getUniqueId().toString();
+        FileConfiguration playerDataConfig = customFiles[0].getFileConfiguration("Data",UUID);
+
+        String directory = playerDataConfig.getString("CurrentDirectory");
+        String parentName = playerDataConfig.getString("CurrentParentName");
+        int page = playerDataConfig.getInt("CurrentPage");
+        int slot = playerDataConfig.getInt("CurrentSlot");
+        boolean moving = playerDataConfig.getBoolean("CurrentlyMoving");
+
+        return new FolderInterfaceDTO(directory, parentName, page, slot, moving);
+    }
+
+    public static void setInterfaceInformation(Player player, FolderInterfaceDTO data) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        String UUID = player.getUniqueId().toString();
+        FileConfiguration playerDataConfig = customFiles[0].getFileConfiguration("Data",UUID);
+        // set
+        playerDataConfig.set("CurrentDirectory", data.directory);
+        playerDataConfig.set("CurrentParentName",data.parentName);
+        playerDataConfig.set("CurrentPage",data.page);
+        playerDataConfig.set("CurrentSlot",data.slot);
+        playerDataConfig.set("CurrentlyMoving",data.moving);
     }
 }
