@@ -1,6 +1,6 @@
 package de.CypDasHuhn.TP.main;
 import de.CypDasHuhn.TP.command.general.CustomTabCompleter;
-import de.CypDasHuhn.TP.command.general.Command;
+import de.CypDasHuhn.TP.command.general.CustomCommand;
 import de.CypDasHuhn.TP.listeners.InventoryClickListener;
 import de.CypDasHuhn.TP.listeners.InventoryCloseListener;
 import de.CypDasHuhn.TP.listeners.PlayerJoinListener;
@@ -23,7 +23,7 @@ public class Main extends JavaPlugin {
         pluginName = getDescription().getName();
 
         for (String a : commands) {
-            getCommand(a).setExecutor(new Command());
+            getCommand(a).setExecutor(new CustomCommand());
             getCommand(a).setTabCompleter(new CustomTabCompleter());
         }
 

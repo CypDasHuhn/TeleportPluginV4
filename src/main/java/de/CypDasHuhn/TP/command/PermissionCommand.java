@@ -1,5 +1,6 @@
 package de.CypDasHuhn.TP.command;
 
+import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
 import de.CypDasHuhn.TP.filemanager.PermissionManager;
 import de.CypDasHuhn.TP.filemanager.PlayerListManager;
 import de.CypDasHuhn.TP.message.Message;
@@ -11,9 +12,11 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Permission {
+public class PermissionCommand extends SkeletonCommand {
     public static final String PERMISSION_COMMAND = "teleportPermission";
-    public static void command(CommandSender sender, String[] args, String label) {
+
+    @Override
+    public void command(CommandSender sender, String[] args, String label) {
         // check
         boolean isPermissioned = false;
         if (sender instanceof ConsoleCommandSender) isPermissioned = true;
@@ -46,7 +49,8 @@ public class Permission {
         }
     }
 
-    public static List<String> completer(CommandSender sender, String[] args, String label) {
+    @Override
+    public List<String> completer(CommandSender sender, String[] args, String label) {
         List<String> arguments = new ArrayList<String>();
         switch (args.length) {
             case 1:

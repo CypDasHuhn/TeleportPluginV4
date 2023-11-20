@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class FolderInterface extends SkeletonInterface {
     public static final String interfaceName = "Folder_Interface";
-    public static final Class listener = FolderInterfaceListener.class;
 
     public static final int previousArrowSlot = 1;
     public static final int nextArrowSlot = 7;

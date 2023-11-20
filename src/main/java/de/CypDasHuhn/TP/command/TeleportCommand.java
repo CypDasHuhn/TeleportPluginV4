@@ -1,6 +1,7 @@
 package de.CypDasHuhn.TP.command;
 
-import de.CypDasHuhn.TP.command.general.Command;
+import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
+import de.CypDasHuhn.TP.command.general.CustomCommand;
 import de.CypDasHuhn.TP.compability.LocationCompability;
 import de.CypDasHuhn.TP.filemanager.CustomFiles;
 import de.CypDasHuhn.TP.filemanager.ListManager;
@@ -20,17 +21,18 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Teleport {
+public class TeleportCommand extends SkeletonCommand {
     private static final String PLAYER_NOT_FOUND = "player_not_found_online";
 
     public static final String TELEPORT_COMMAND = "teleport";
     public static final String TELEPORT_GLOBAL_COMMAND = "teleportGlobal";
     public static final String TELEPORT_USER_COMMAND = "teleportUser";
 
-    public static void command(CommandSender sender, String[] args, String label) {
-        boolean isTeleportCommand = Command.isCommand(label, TELEPORT_COMMAND);
-        boolean isTeleportGlobalCommand = Command.isCommand(label, TELEPORT_GLOBAL_COMMAND);
-        boolean isTeleportUserCommand = Command.isCommand(label, TELEPORT_USER_COMMAND);
+    @Override
+    public void command(CommandSender sender, String[] args, String label) {
+        boolean isTeleportCommand = CustomCommand.isCommand(label, TELEPORT_COMMAND);
+        boolean isTeleportGlobalCommand = CustomCommand.isCommand(label, TELEPORT_GLOBAL_COMMAND);
+        boolean isTeleportUserCommand = CustomCommand.isCommand(label, TELEPORT_USER_COMMAND);
 
         int bonus = isTeleportUserCommand ? 1 : 0;
         // check
@@ -105,10 +107,11 @@ public class Teleport {
         targetPlayer.teleport(teleportLocation);
     }
 
-    public static List<String> completer(CommandSender sender, String[] args, String label) {
-        boolean isTeleportCommand = Command.isCommand(label, TELEPORT_COMMAND);
-        boolean isTeleportGlobalCommand = Command.isCommand(label, TELEPORT_GLOBAL_COMMAND);
-        boolean isTeleportUserCommand = Command.isCommand(label, TELEPORT_USER_COMMAND);
+    @Override
+    public List<String> completer(CommandSender sender, String[] args, String label) {
+        boolean isTeleportCommand = CustomCommand.isCommand(label, TELEPORT_COMMAND);
+        boolean isTeleportGlobalCommand = CustomCommand.isCommand(label, TELEPORT_GLOBAL_COMMAND);
+        boolean isTeleportUserCommand = CustomCommand.isCommand(label, TELEPORT_USER_COMMAND);
 
         int bonus = isTeleportUserCommand ? 1 : 0;
 

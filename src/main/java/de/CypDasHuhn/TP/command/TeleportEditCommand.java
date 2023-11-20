@@ -1,5 +1,6 @@
 package de.CypDasHuhn.TP.command;
 
+import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
 import de.CypDasHuhn.TP.filemanager.ChildManager;
 import de.CypDasHuhn.TP.filemanager.ListManager;
 import de.CypDasHuhn.TP.filemanager.LocationManager;
@@ -14,11 +15,13 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeleportEdit {
+public class TeleportEditCommand extends SkeletonCommand {
     public static final String TELEPORT_EDIT_COMMAND = "teleportEdit";
     public static final String LOCATION_MODE = "Location";
     public static final String NAME_MODE = "Name";
-    public static void command(CommandSender sender, String[] args, String label) {
+
+    @Override
+    public void command(CommandSender sender, String[] args, String label) {
         // check
         if (!(sender instanceof Player player)) return; // The Command Block cannot give a directory for the command.
 
@@ -73,7 +76,8 @@ public class TeleportEdit {
         Message.sendMessage(player, Finals.Messages.TELEPORT_EDIT_SUCCESS.label, locationName);
     }
 
-    public static List<String> completer(CommandSender sender, String[] args, String label) {
+    @Override
+    public List<String> completer(CommandSender sender, String[] args, String label) {
         List<String> arguments = new ArrayList<String>();
         if (!(sender instanceof  Player player)) return arguments; // command blocks cannot access a directory
         boolean isPermissioned = PermissionManager.isPermissioned(player.getName());

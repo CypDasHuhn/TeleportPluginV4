@@ -1,5 +1,6 @@
 package de.CypDasHuhn.TP.command;
 
+import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
 import de.CypDasHuhn.TP.filemanager.LocaleManager;
 import de.CypDasHuhn.TP.message.Message;
 import de.CypDasHuhn.TP.shared.Finals;
@@ -9,9 +10,10 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Language {
+public class LanguageCommand extends SkeletonCommand {
     public static final String LANGUAGE_COMMAND = "teleportLanguage";
-    public static void command(CommandSender sender, String[] args, String label) {
+    @Override
+    public void command(CommandSender sender, String[] args, String label) {
         if (!(sender instanceof Player player)) return;
         if (args.length < 1) {
             Message.sendMessage(player, Finals.Messages.LANGUAGE_SHORT_ARGS.label);
@@ -36,7 +38,8 @@ public class Language {
         Message.sendMessage(player, Finals.Messages.LANGUAGE_SUCCESS.label);
     }
 
-    public static List<String> completer(CommandSender sender, String[] args, String label) {
+    @Override
+    public List<String> completer(CommandSender sender, String[] args, String label) {
         List<String> arguments = new ArrayList<String>();
         switch (args.length) {
             case 1:

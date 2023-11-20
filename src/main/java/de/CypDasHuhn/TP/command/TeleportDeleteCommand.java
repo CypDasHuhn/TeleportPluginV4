@@ -1,5 +1,6 @@
 package de.CypDasHuhn.TP.command;
 
+import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
 import de.CypDasHuhn.TP.filemanager.CustomFiles;
 import de.CypDasHuhn.TP.filemanager.ListManager;
 import de.CypDasHuhn.TP.filemanager.ParentManager;
@@ -13,9 +14,11 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeleportDelete {
+public class TeleportDeleteCommand extends SkeletonCommand {
     public static final String TELEPORT_DELETE_COMMAND = "teleportDelete";
-    public static void command(CommandSender sender, String[] args, String label) {
+
+    @Override
+    public void command(CommandSender sender, String[] args, String label) {
         // check
         if (!(sender instanceof Player player)) return; // command blocks cannot access a directory
 
@@ -52,7 +55,8 @@ public class TeleportDelete {
         Message.sendMessage(sender, Finals.Messages.TELEPORT_DELETE_SUCCESS.label, locationName);
     }
 
-    public static List<String> completer(CommandSender sender, String[] args, String label) {
+    @Override
+    public List<String> completer(CommandSender sender, String[] args, String label) {
         List<String> arguments = new ArrayList<String>();
         boolean isPermissioned = false;
         if (!(sender instanceof Player player)) return arguments;

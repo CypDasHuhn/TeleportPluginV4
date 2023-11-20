@@ -1,6 +1,6 @@
 package de.CypDasHuhn.TP.command;
 
-import de.CypDasHuhn.TP.command.general.Command;
+import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
 import de.CypDasHuhn.TP.filemanager.ListManager;
 import de.CypDasHuhn.TP.filemanager.PermissionManager;
 import de.CypDasHuhn.TP.filemanager.TagManager;
@@ -10,16 +10,15 @@ import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TeleportTag {
+public class TeleportTagCommand extends SkeletonCommand {
     public static final String TAG_COMMAND = "teleportTag";
-    public static void command(CommandSender sender, String[] args, String label) throws NoSuchMethodException {
+
+    @Override
+    public void command(CommandSender sender, String[] args, String label) {
         if (!(sender instanceof Player player)) return; // command blocks cannot access directories
 
         boolean isGlobal = args.length >= 1 && args[0].equals(Finals.Attributes.GLOBAL.label);
@@ -97,7 +96,8 @@ public class TeleportTag {
         }
     }
 
-    public static List<String> completer(CommandSender sender, String[] args, String label) {
+    @Override
+    public List<String> completer(CommandSender sender, String[] args, String label) {
         List<String> arguments = new ArrayList<String>();
         if (!(sender instanceof  Player player)) return arguments; // command blocks cannot access a directory
         player.sendMessage("GRR");

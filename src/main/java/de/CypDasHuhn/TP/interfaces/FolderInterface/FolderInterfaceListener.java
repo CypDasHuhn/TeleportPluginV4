@@ -15,7 +15,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class FolderInterfaceListener extends SkeletonInterfaceListener {
-    public static final String interfaceName = FolderInterface.interfaceName;
     
     @Override
     public void listener(InventoryClickEvent event) {
