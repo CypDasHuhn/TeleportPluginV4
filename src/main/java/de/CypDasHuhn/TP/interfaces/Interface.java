@@ -1,15 +1,16 @@
 package de.CypDasHuhn.TP.interfaces;
 
-import de.CypDasHuhn.TP.filemanager.PlayerDataManager;
-import de.CypDasHuhn.TP.filemanager.PlayerListManager;
-import de.CypDasHuhn.TP.interfaces.ConfirmingInterface.ConfirmingInterface;
-import de.CypDasHuhn.TP.interfaces.ConfirmingInterface.ConfirmingInterfaceListener;
-import de.CypDasHuhn.TP.interfaces.FolderInterface.FolderInterface;
-import de.CypDasHuhn.TP.interfaces.FolderInterface.FolderInterfaceListener;
-import de.CypDasHuhn.TP.interfaces.Skeleton.SkeletonInterface;
-import de.CypDasHuhn.TP.interfaces.Skeleton.SkeletonInterfaceListener;
+import de.CypDasHuhn.TP.file_manager.player_manager.PlayerDataManager;
+import de.CypDasHuhn.TP.interfaces.confirming_interface.ConfirmingInterface;
+import de.CypDasHuhn.TP.interfaces.confirming_interface.ConfirmingInterfaceListener;
+import de.CypDasHuhn.TP.interfaces.folder_interface.FolderInterface;
+import de.CypDasHuhn.TP.interfaces.folder_interface.FolderInterfaceListener;
+import de.CypDasHuhn.TP.interfaces.skeleton.SkeletonInterface;
+import de.CypDasHuhn.TP.interfaces.skeleton.SkeletonInterfaceListener;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
@@ -32,6 +33,14 @@ public class Interface {
         PlayerDataManager.setInventory(player, interfaceName);
 
         SkeletonInterface skeletonInterface = interfaceMap.get(interfaceName);
+
+        Player player = (Player) event.getWhoClicked();
+
+        ItemStack clickedItem = event.getCurrentItem();
+        Material clickedMaterial = clickedItem.getType();
+        int clickedSlot = event.getSlot();
+
+        if (clickedItem == null) return;
 
         Inventory customInterface = skeletonInterface.getInterface(player, vars);
         player.openInventory(customInterface);

@@ -1,9 +1,11 @@
 package de.CypDasHuhn.TP.command;
 
-import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
-import de.CypDasHuhn.TP.filemanager.LocationManager;
-import de.CypDasHuhn.TP.filemanager.PermissionManager;
+import de.CypDasHuhn.TP.command.skeleton.SkeletonCommand;
+import de.CypDasHuhn.TP.file_manager.item_manager.ItemManager;
+import de.CypDasHuhn.TP.file_manager.item_manager.LocationManager;
+import de.CypDasHuhn.TP.file_manager.player_manager.PermissionManager;
 import de.CypDasHuhn.TP.message.Message;
+import de.CypDasHuhn.TP.shared.FileManagerMethods;
 import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -41,7 +43,22 @@ public class TeleportSetCommand extends SkeletonCommand {
         String locationName = isGlobal ? args[1] : args[0];
         Location playerLocation = player.getLocation();
 
-        LocationManager.register(sender, directory, locationName, Finals.DEFAULT_PARENT, playerLocation);
+        boolean exists = ItemManager.itemExists(directory, locationName, Finals.ItemType.LOCATION.label);
+        if (exists) {
+            Message.sendMessage(sender, Finals.Messages.LOCATION_NAME_EXISTS.label, locationName);
+            return;
+        }
+
+        boolean illegalName = FileManagerMethods.illegalName(locationName);
+        if (illegalName) {
+            Message.sendMessage(sender, Finals.Messages.ILLEGAL_NAME.label, locationName);
+            return;
+        }
+
+        ItemManager.register(directory, locationName, Finals.DEFAULT_PARENT, Finals.ItemType.LOCATION.label);
+        LocationManager.setLocation(directory, locationName, playerLocation);
+
+        Message.sendMessage(sender, Finals.Messages.TELEPORT_SET_SUCCESS.label, locationName);
     }
 
     @Override

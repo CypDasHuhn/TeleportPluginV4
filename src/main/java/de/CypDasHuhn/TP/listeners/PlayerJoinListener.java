@@ -1,6 +1,6 @@
 package de.CypDasHuhn.TP.listeners;
 
-import de.CypDasHuhn.TP.filemanager.PlayerListManager;
+import de.CypDasHuhn.TP.file_manager.player_manager.PlayerListManager;
 import de.CypDasHuhn.TP.interfaces.Interface;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

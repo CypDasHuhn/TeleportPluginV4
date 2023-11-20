@@ -1,5 +1,6 @@
-package de.CypDasHuhn.TP.filemanager;
+package de.CypDasHuhn.TP.file_manager.item_manager;
 
+import de.CypDasHuhn.TP.file_manager.CustomFiles;
 import de.CypDasHuhn.TP.message.Message;
 import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.configuration.file.FileConfiguration;

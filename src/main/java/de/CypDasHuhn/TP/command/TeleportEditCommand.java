@@ -1,10 +1,10 @@
 package de.CypDasHuhn.TP.command;
 
-import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
-import de.CypDasHuhn.TP.filemanager.ChildManager;
-import de.CypDasHuhn.TP.filemanager.ListManager;
-import de.CypDasHuhn.TP.filemanager.LocationManager;
-import de.CypDasHuhn.TP.filemanager.PermissionManager;
+import de.CypDasHuhn.TP.command.skeleton.SkeletonCommand;
+import de.CypDasHuhn.TP.file_manager.item_manager.ItemManager;
+import de.CypDasHuhn.TP.file_manager.item_manager.ListManager;
+import de.CypDasHuhn.TP.file_manager.item_manager.LocationManager;
+import de.CypDasHuhn.TP.file_manager.player_manager.PermissionManager;
 import de.CypDasHuhn.TP.message.Message;
 import de.CypDasHuhn.TP.shared.FileManagerMethods;
 import de.CypDasHuhn.TP.shared.Finals;
@@ -70,7 +70,7 @@ public class TeleportEditCommand extends SkeletonCommand {
         }
         else if (mode.equalsIgnoreCase(NAME_MODE)) {
             String newName = args[2+isGlobalBonus];
-            ChildManager.renameItem(directory, locationName, newName, Finals.ItemType.LOCATION.label);
+            ItemManager.renameItem(directory, locationName, newName, Finals.ItemType.LOCATION.label);
         }
 
         Message.sendMessage(player, Finals.Messages.TELEPORT_EDIT_SUCCESS.label, locationName);

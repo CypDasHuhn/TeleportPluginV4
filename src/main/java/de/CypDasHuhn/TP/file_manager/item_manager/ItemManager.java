@@ -1,16 +1,18 @@
-package de.CypDasHuhn.TP.filemanager;
+package de.CypDasHuhn.TP.file_manager.item_manager;
 
+import de.CypDasHuhn.TP.file_manager.CustomFiles;
+import de.CypDasHuhn.TP.shared.FileManagerMethods;
 import de.CypDasHuhn.TP.shared.Finals;
+import de.CypDasHuhn.TP.shared.SpigotMethods;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public class ChildManager {
+public class ItemManager {
     public static void setParent(String directory, String childrenName, String childrenType, String parentName, int slot) {
         // Prework
         CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
@@ -20,6 +22,28 @@ public class ChildManager {
         childConfig.set("Parent.Slot", slot);
         // Save
         CustomFiles.saveArray(customFiles);
+    }
+
+    public static void register(String directory, String name, String parentName, String itemType) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        FileConfiguration childConfig = customFiles[0].getFileConfiguration(name,directory+"/"+itemType);
+        // calls
+        int freeSlot = ParentManager.getFreeSlot(directory, parentName);
+        ParentManager.setChildren(directory, parentName, name, itemType, freeSlot);
+        ItemManager.setParent(directory,name, itemType,parentName, freeSlot);
+        ListManager.add(directory, name, itemType);
+        ItemManager.setItem(directory, name, itemType, SpigotMethods.createItem(Material.GRASS_BLOCK, " ", false, null));
+    }
+
+    public static boolean itemExists(String directory, String itemName, String itemType) {
+        // Prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        FileConfiguration childConfig = customFiles[0].getFileConfiguration(itemName,directory+"/"+itemType);
+        // Check
+        boolean exists = childConfig.getString("Parent.Name") != null;
+        if (itemName.equals(Finals.DEFAULT_PARENT) && itemType.equals(Finals.ItemType.FOLDER.label)) exists = true; // edge-case
+        return exists;
     }
 
     public static void setItem(String directory, String childrenName, String childrenType, ItemStack item) {

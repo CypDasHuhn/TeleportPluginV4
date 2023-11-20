@@ -1,8 +1,8 @@
 package de.CypDasHuhn.TP.command;
 
-import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
-import de.CypDasHuhn.TP.filemanager.PermissionManager;
-import de.CypDasHuhn.TP.filemanager.PlayerListManager;
+import de.CypDasHuhn.TP.command.skeleton.SkeletonCommand;
+import de.CypDasHuhn.TP.file_manager.player_manager.PermissionManager;
+import de.CypDasHuhn.TP.file_manager.player_manager.PlayerListManager;
 import de.CypDasHuhn.TP.message.Message;
 import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.command.CommandSender;

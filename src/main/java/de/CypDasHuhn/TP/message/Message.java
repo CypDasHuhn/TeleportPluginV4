@@ -1,6 +1,6 @@
 package de.CypDasHuhn.TP.message;
 
-import de.CypDasHuhn.TP.filemanager.LocaleManager;
+import de.CypDasHuhn.TP.file_manager.player_manager.LocaleManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

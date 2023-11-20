@@ -1,9 +1,9 @@
 package de.CypDasHuhn.TP.command;
 
-import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
-import de.CypDasHuhn.TP.filemanager.ListManager;
-import de.CypDasHuhn.TP.filemanager.PermissionManager;
-import de.CypDasHuhn.TP.filemanager.TagManager;
+import de.CypDasHuhn.TP.command.skeleton.SkeletonCommand;
+import de.CypDasHuhn.TP.file_manager.item_manager.ListManager;
+import de.CypDasHuhn.TP.file_manager.player_manager.PermissionManager;
+import de.CypDasHuhn.TP.file_manager.item_manager.TagManager;
 import de.CypDasHuhn.TP.message.Message;
 import de.CypDasHuhn.TP.shared.FileManagerMethods;
 import de.CypDasHuhn.TP.shared.Finals;

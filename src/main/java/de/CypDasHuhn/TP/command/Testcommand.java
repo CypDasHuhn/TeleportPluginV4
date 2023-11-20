@@ -1,8 +1,6 @@
 package de.CypDasHuhn.TP.command;
 
-import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
-import de.CypDasHuhn.TP.message.Message;
-import org.bukkit.Bukkit;
+import de.CypDasHuhn.TP.command.skeleton.SkeletonCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

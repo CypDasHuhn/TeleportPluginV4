@@ -1,7 +1,7 @@
 package de.CypDasHuhn.TP.command;
 
-import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
-import de.CypDasHuhn.TP.filemanager.LocaleManager;
+import de.CypDasHuhn.TP.command.skeleton.SkeletonCommand;
+import de.CypDasHuhn.TP.file_manager.player_manager.LocaleManager;
 import de.CypDasHuhn.TP.message.Message;
 import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.command.CommandSender;

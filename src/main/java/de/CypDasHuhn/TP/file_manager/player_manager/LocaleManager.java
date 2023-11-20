@@ -1,6 +1,6 @@
-package de.CypDasHuhn.TP.filemanager;
+package de.CypDasHuhn.TP.file_manager.player_manager;
 
-import org.bukkit.Bukkit;
+import de.CypDasHuhn.TP.file_manager.CustomFiles;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 

@@ -1,12 +1,12 @@
-package de.CypDasHuhn.TP.interfaces.FolderInterface;
+package de.CypDasHuhn.TP.interfaces.folder_interface;
 
 import de.CypDasHuhn.TP.DTO.FolderInterfaceDTO;
 import de.CypDasHuhn.TP.DTO.ItemDTO;
-import de.CypDasHuhn.TP.filemanager.LocationManager;
-import de.CypDasHuhn.TP.filemanager.ParentManager;
-import de.CypDasHuhn.TP.filemanager.PlayerDataManager;
+import de.CypDasHuhn.TP.file_manager.item_manager.LocationManager;
+import de.CypDasHuhn.TP.file_manager.item_manager.ParentManager;
+import de.CypDasHuhn.TP.file_manager.player_manager.PlayerDataManager;
 import de.CypDasHuhn.TP.interfaces.Interface;
-import de.CypDasHuhn.TP.interfaces.Skeleton.SkeletonInterfaceListener;
+import de.CypDasHuhn.TP.interfaces.skeleton.SkeletonInterfaceListener;
 import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,16 +17,8 @@ import org.bukkit.inventory.ItemStack;
 public class FolderInterfaceListener extends SkeletonInterfaceListener {
     
     @Override
-    public void listener(InventoryClickEvent event) {
+    public void listener(InventoryClickEvent event, Player player, ItemStack clickedItem, Material clickedMaterial, int clickedSlot) {
         event.setCancelled(true);
-
-        Player player = (Player) event.getWhoClicked();
-
-        ItemStack clickedItem = event.getCurrentItem();
-        Material clickedMaterial = clickedItem.getType();
-        int clickedSlot = event.getSlot();
-
-        if (clickedItem == null) return;
 
         FolderInterfaceDTO data = PlayerDataManager.getInterfaceInformation(player);
 

@@ -1,6 +1,6 @@
 package de.CypDasHuhn.TP.compability;
 
-import de.CypDasHuhn.TP.filemanager.CustomFiles;
+import de.CypDasHuhn.TP.file_manager.CustomFiles;
 import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

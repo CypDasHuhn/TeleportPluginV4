@@ -1,7 +1,6 @@
-package de.CypDasHuhn.TP.interfaces.EditInterface;
+package de.CypDasHuhn.TP.interfaces.edit_interface;
 
-import de.CypDasHuhn.TP.interfaces.ConfirmingInterface.ConfirmingInterfaceListener;
-import de.CypDasHuhn.TP.interfaces.Skeleton.SkeletonInterface;
+import de.CypDasHuhn.TP.interfaces.skeleton.SkeletonInterface;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 

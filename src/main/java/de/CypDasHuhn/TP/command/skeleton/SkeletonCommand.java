@@ -1,4 +1,4 @@
-package de.CypDasHuhn.TP.command.Skeleton;
+package de.CypDasHuhn.TP.command.skeleton;
 
 import org.bukkit.command.CommandSender;
 

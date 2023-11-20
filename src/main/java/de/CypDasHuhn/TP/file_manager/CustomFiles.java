@@ -1,4 +1,4 @@
-package de.CypDasHuhn.TP.filemanager;
+package de.CypDasHuhn.TP.file_manager;
 
 import de.CypDasHuhn.TP.main.Main;
 import org.bukkit.Bukkit;

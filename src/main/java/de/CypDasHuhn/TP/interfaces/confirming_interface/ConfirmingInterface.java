@@ -1,6 +1,6 @@
-package de.CypDasHuhn.TP.interfaces.ConfirmingInterface;
+package de.CypDasHuhn.TP.interfaces.confirming_interface;
 
-import de.CypDasHuhn.TP.interfaces.Skeleton.SkeletonInterface;
+import de.CypDasHuhn.TP.interfaces.skeleton.SkeletonInterface;
 import de.CypDasHuhn.TP.shared.SpigotMethods;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

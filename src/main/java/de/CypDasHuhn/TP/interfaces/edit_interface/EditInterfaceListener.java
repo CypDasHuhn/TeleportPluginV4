@@ -1,7 +1,6 @@
-package de.CypDasHuhn.TP.interfaces.EditInterface;
+package de.CypDasHuhn.TP.interfaces.edit_interface;
 
-import de.CypDasHuhn.TP.interfaces.ConfirmingInterface.ConfirmingInterface;
-import de.CypDasHuhn.TP.interfaces.Skeleton.SkeletonInterfaceListener;
+import de.CypDasHuhn.TP.interfaces.skeleton.SkeletonInterfaceListener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class EditInterfaceListener  extends SkeletonInterfaceListener {

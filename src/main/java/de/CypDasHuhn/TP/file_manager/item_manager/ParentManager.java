@@ -1,6 +1,7 @@
-package de.CypDasHuhn.TP.filemanager;
+package de.CypDasHuhn.TP.file_manager.item_manager;
 
 import de.CypDasHuhn.TP.DTO.ItemDTO;
+import de.CypDasHuhn.TP.file_manager.CustomFiles;
 import de.CypDasHuhn.TP.shared.Finals;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -57,5 +58,21 @@ public class ParentManager {
             setRowAmount(directory, parentName, rowAmount);
         }
         return rowAmount;
+    }
+
+    public static int getFreeSlot(String directory, String parentName) {
+        // prework
+        CustomFiles[] customFiles = CustomFiles.getCustomFiles(1);
+        FileConfiguration parentConfig = customFiles[0].getFileConfiguration(parentName, directory+"/"+Finals.ItemType.FOLDER.label);
+        // find
+        int id = 0;
+        for (int i = 0; true; i++) { // infinite loop
+            String name = parentConfig.getString("Child."+i+".Name");
+            boolean empty = name == null || name.equals(Finals.EMPTY);
+            if (empty) {
+                id = i;
+                return id;
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-package de.CypDasHuhn.TP.interfaces.Skeleton;
+package de.CypDasHuhn.TP.interfaces.skeleton;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 

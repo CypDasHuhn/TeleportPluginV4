@@ -1,13 +1,13 @@
 package de.CypDasHuhn.TP.command;
 
-import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
+import de.CypDasHuhn.TP.command.skeleton.SkeletonCommand;
 import de.CypDasHuhn.TP.command.general.CustomCommand;
 import de.CypDasHuhn.TP.compability.LocationCompability;
-import de.CypDasHuhn.TP.filemanager.CustomFiles;
-import de.CypDasHuhn.TP.filemanager.ListManager;
-import de.CypDasHuhn.TP.filemanager.PlayerDataManager;
-import de.CypDasHuhn.TP.filemanager.PlayerListManager;
-import de.CypDasHuhn.TP.interfaces.FolderInterface.FolderInterface;
+import de.CypDasHuhn.TP.file_manager.CustomFiles;
+import de.CypDasHuhn.TP.file_manager.item_manager.ListManager;
+import de.CypDasHuhn.TP.file_manager.player_manager.PlayerDataManager;
+import de.CypDasHuhn.TP.file_manager.player_manager.PlayerListManager;
+import de.CypDasHuhn.TP.interfaces.folder_interface.FolderInterface;
 import de.CypDasHuhn.TP.interfaces.Interface;
 import de.CypDasHuhn.TP.message.Message;
 import de.CypDasHuhn.TP.shared.Finals;

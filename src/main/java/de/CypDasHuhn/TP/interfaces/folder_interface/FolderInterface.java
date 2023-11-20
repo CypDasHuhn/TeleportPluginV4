@@ -1,11 +1,11 @@
-package de.CypDasHuhn.TP.interfaces.FolderInterface;
+package de.CypDasHuhn.TP.interfaces.folder_interface;
 
 import de.CypDasHuhn.TP.DTO.FolderInterfaceDTO;
 import de.CypDasHuhn.TP.DTO.ItemDTO;
-import de.CypDasHuhn.TP.filemanager.ChildManager;
-import de.CypDasHuhn.TP.filemanager.ParentManager;
-import de.CypDasHuhn.TP.filemanager.PlayerDataManager;
-import de.CypDasHuhn.TP.interfaces.Skeleton.SkeletonInterface;
+import de.CypDasHuhn.TP.file_manager.item_manager.ItemManager;
+import de.CypDasHuhn.TP.file_manager.item_manager.ParentManager;
+import de.CypDasHuhn.TP.file_manager.player_manager.PlayerDataManager;
+import de.CypDasHuhn.TP.interfaces.skeleton.SkeletonInterface;
 import de.CypDasHuhn.TP.shared.Finals;
 import de.CypDasHuhn.TP.shared.SpigotMethods;
 import org.bukkit.Bukkit;
@@ -47,7 +47,7 @@ public class FolderInterface extends SkeletonInterface {
             ItemDTO child = ParentManager.getChild(directory, parentName, globalSlot);
             if (child != null) {
                 boolean enchanted = child.itemType.equals(Finals.ItemType.FOLDER.label);
-                ItemStack visualItem = ChildManager.getItem(directory,child.itemName,child.itemType);
+                ItemStack visualItem = ItemManager.getItem(directory,child.itemName,child.itemType);
                 ItemStack item = SpigotMethods.createItemFromItem(visualItem, "§f"+child.itemName, enchanted, null);
                 inventory.setItem(i, item);
             }

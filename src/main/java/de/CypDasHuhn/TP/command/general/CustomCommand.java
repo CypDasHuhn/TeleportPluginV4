@@ -1,7 +1,7 @@
 package de.CypDasHuhn.TP.command.general;
 
 import de.CypDasHuhn.TP.command.*;
-import de.CypDasHuhn.TP.command.Skeleton.SkeletonCommand;
+import de.CypDasHuhn.TP.command.skeleton.SkeletonCommand;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
