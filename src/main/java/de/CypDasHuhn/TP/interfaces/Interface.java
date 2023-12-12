@@ -7,10 +7,8 @@ import de.CypDasHuhn.TP.interfaces.folder_interface.FolderInterface;
 import de.CypDasHuhn.TP.interfaces.folder_interface.FolderInterfaceListener;
 import de.CypDasHuhn.TP.interfaces.skeleton.SkeletonInterface;
 import de.CypDasHuhn.TP.interfaces.skeleton.SkeletonInterfaceListener;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
@@ -33,14 +31,6 @@ public class Interface {
         PlayerDataManager.setInventory(player, interfaceName);
 
         SkeletonInterface skeletonInterface = interfaceMap.get(interfaceName);
-
-        Player player = (Player) event.getWhoClicked();
-
-        ItemStack clickedItem = event.getCurrentItem();
-        Material clickedMaterial = clickedItem.getType();
-        int clickedSlot = event.getSlot();
-
-        if (clickedItem == null) return;
 
         Inventory customInterface = skeletonInterface.getInterface(player, vars);
         player.openInventory(customInterface);

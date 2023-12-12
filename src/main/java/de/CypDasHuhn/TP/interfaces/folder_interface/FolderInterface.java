@@ -22,9 +22,10 @@ public class FolderInterface extends SkeletonInterface {
 
     @Override
     public Inventory getInterface(Player player, Object... vars) {
-        String directory = ((FolderInterfaceDTO) vars[0]).directory;
-        String parentName = ((FolderInterfaceDTO) vars[0]).parentName;
-        int page = ((FolderInterfaceDTO) vars[0]).page;
+        FolderInterfaceDTO folderInformation = (FolderInterfaceDTO) vars[0];
+        String directory = folderInformation.directory;
+        String parentName = folderInformation.parentName;
+        int page = folderInformation.page;
 
         PlayerDataManager.setInterfaceInformation(player, (FolderInterfaceDTO) vars[0]);
 

@@ -18,8 +18,6 @@ public class FolderInterfaceListener extends SkeletonInterfaceListener {
     
     @Override
     public void listener(InventoryClickEvent event, Player player, ItemStack clickedItem, Material clickedMaterial, int clickedSlot) {
-        event.setCancelled(true);
-
         FolderInterfaceDTO data = PlayerDataManager.getInterfaceInformation(player);
 
         String directory = data.directory;
