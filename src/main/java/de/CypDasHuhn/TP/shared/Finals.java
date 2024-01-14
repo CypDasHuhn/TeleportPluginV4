@@ -25,6 +25,7 @@ public class Finals {
         ADD("add"),
         REMOVE("remove"),
         TOGGLE("toggle");
+
         public final String label;
         private TagModes(String label) {
             this.label = label;

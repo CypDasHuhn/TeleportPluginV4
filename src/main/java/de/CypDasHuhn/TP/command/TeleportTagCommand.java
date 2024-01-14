@@ -1,6 +1,7 @@
 package de.CypDasHuhn.TP.command;
 
 import de.CypDasHuhn.TP.command.skeleton.SkeletonCommand;
+import de.CypDasHuhn.TP.file_manager.item_manager.ItemManager;
 import de.CypDasHuhn.TP.file_manager.item_manager.ListManager;
 import de.CypDasHuhn.TP.file_manager.player_manager.PermissionManager;
 import de.CypDasHuhn.TP.file_manager.item_manager.TagManager;
@@ -45,7 +46,7 @@ public class TeleportTagCommand extends SkeletonCommand {
         }
 
         String itemName = args[1+bonus];
-        boolean itemExists = FileManagerMethods.itemExists(directory, itemName, itemType);
+        boolean itemExists = ItemManager.itemExists(directory, itemName, itemType);
         if (!itemExists) {
             Message.sendMessage(player, Finals.Messages.NO_LOCATION_NAME_TARGET_FOUND.label, itemName);
             return;
@@ -114,7 +115,7 @@ public class TeleportTagCommand extends SkeletonCommand {
         String itemType = isItemType ? args[itemTypeIndex] : "";
 
         int itemNameIndex = 2+isGlobalBonus;
-        boolean itemExists = args.length > itemNameIndex && FileManagerMethods.itemExists(directory, args[itemNameIndex], itemType);
+        boolean itemExists = args.length > itemNameIndex && ItemManager.itemExists(directory, args[itemNameIndex], itemType);
         if (args.length > itemNameIndex && !itemExists) return arguments;
 
         if (args.length == 1) {

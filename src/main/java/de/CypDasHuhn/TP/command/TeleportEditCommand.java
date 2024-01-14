@@ -52,7 +52,7 @@ public class TeleportEditCommand extends SkeletonCommand {
         String locationName = args[0+isGlobalBonus];
         String mode = args[1+isGlobalBonus];
 
-        boolean locationExists = FileManagerMethods.itemExists(directory, locationName, Finals.ItemType.LOCATION.label);
+        boolean locationExists = ItemManager.itemExists(directory, locationName, Finals.ItemType.LOCATION.label);
         if (!locationExists) {
             Message.sendMessage(player, Finals.Messages.NO_LOCATION_NAME_TARGET_FOUND.label, locationName);
             return;
@@ -99,7 +99,7 @@ public class TeleportEditCommand extends SkeletonCommand {
 
             directory = isGlobal ? Finals.GLOBAL : player.getUniqueId().toString();
             String locationName = args[0+isGlobalBonus];
-            boolean locationExists = FileManagerMethods.itemExists(directory, locationName, Finals.ItemType.LOCATION.label);
+            boolean locationExists = ItemManager.itemExists(directory, locationName, Finals.ItemType.LOCATION.label);
             if (!locationExists) return arguments;
 
             arguments.add(NAME_MODE);
@@ -109,7 +109,7 @@ public class TeleportEditCommand extends SkeletonCommand {
 
             directory = isGlobal ? Finals.GLOBAL : player.getUniqueId().toString();
             String locationName = args[0+isGlobalBonus];
-            boolean locationExists = FileManagerMethods.itemExists(directory, locationName, Finals.ItemType.LOCATION.label);
+            boolean locationExists = ItemManager.itemExists(directory, locationName, Finals.ItemType.LOCATION.label);
             if (!locationExists) return arguments;
 
             if ((args[1+isGlobalBonus]).equalsIgnoreCase(NAME_MODE)) {
